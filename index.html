@@ -23,6 +23,9 @@
     <button type="button" class="btn btn--pequeno btn-ajustes" id="btn-ajustes" aria-label="Abrir ajustes">⚙</button>
   </header>
 
+  <!-- Anuncio de cambios de pantalla para lectores (ui.js lo actualiza). -->
+  <div class="sr-only" aria-live="polite" id="anuncio"></div>
+
   <main>
     <!-- ================= 1. INICIO ================= -->
     <section class="pantalla" id="pantalla-inicio" aria-label="Inicio">
@@ -170,6 +173,8 @@
             <span class="chip" id="juego-pregunta">PREGUNTA 1/10</span>
             <span class="chip" id="juego-puntaje">PUNTAJE: 0</span>
             <span class="chip chip--tiempo" id="juego-tiempo">20s</span>
+            <!-- El tiempo se anuncia cada 5 s para no saturar lectores de pantalla. -->
+            <span class="sr-only" aria-live="polite" id="tiempo-anuncio"></span>
           </div>
 
           <div class="barra" role="progressbar" aria-label="Progreso de preguntas" aria-valuemin="1" aria-valuemax="10" aria-valuenow="1" id="barra-progreso">
