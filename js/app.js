@@ -57,8 +57,9 @@ function sonarError() {
 }
 
 // Aplica el tema al instante (también se aplica antes de pintar en el <head>).
+// El CSS escucha [data-theme="light"]; 'oscuro' es el :root por defecto.
 function aplicarTema() {
-  document.documentElement.dataset.theme = prefs.tema;
+  document.documentElement.dataset.theme = prefs.tema === 'claro' ? 'light' : 'oscuro';
   pintarTema();
 }
 

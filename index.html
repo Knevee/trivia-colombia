@@ -10,7 +10,7 @@
     try {
       var prefsIniciales = JSON.parse(localStorage.getItem('trivia_prefs'));
       if (prefsIniciales && prefsIniciales.tema === 'claro') {
-        document.documentElement.dataset.theme = 'claro';
+        document.documentElement.dataset.theme = 'light';
       }
     } catch (e) {}
   </script>
