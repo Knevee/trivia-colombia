@@ -83,12 +83,13 @@
     overflow: hidden;
   }
 
-  /* Ventana de juego hasta 820 px, centrada en vertical. */
+  /* Ventana de juego hasta 820 px, centrada en vertical. El centrado
+     "safe" evita recortar arriba si el contenido supera el alto. */
   main {
     max-width: 820px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: safe center;
     min-height: calc(100dvh - 12px);
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
@@ -103,8 +104,13 @@
     min-height: 0;
   }
 
+  /* Engranaje siempre visible arriba a la derecha (fijo, sobre el fondo).
+     El JS lo muestra solo en Inicio. En móvil sigue en el flujo. */
   .btn-ajustes {
-    top: 0;
+    position: fixed;
+    top: calc(6px + 0.5rem);
+    right: 0.5rem;
+    z-index: 60;
   }
 
   .ventana__contenido {
@@ -160,6 +166,18 @@
     min-height: 44px;
     padding-top: 0.4rem;
     padding-bottom: 0.4rem;
+  }
+
+  /* Sin márgenes verticales extra en hijos directos (evitan desborde). */
+  .ventana__contenido > h1,
+  .ventana__contenido > h2,
+  .ventana__contenido > p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .parpadeo {
+    margin: 0;
   }
 
   /* Excepción: la tabla del top 10 rueda por dentro. */

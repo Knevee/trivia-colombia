@@ -720,7 +720,7 @@ input.is-error {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: safe center;
   width: 100%;
   min-height: calc(100dvh - 12px); /* descuenta las franjas tricolor de 6 px */
 }
