@@ -1044,26 +1044,22 @@ h3 {
   font-weight: 700;
 }
 
-/* Barras de desplazamiento pixel en contenedores con scroll interno
-   (tabla del ranking y bloque de retroalimentación). */
-.tabla-scroll,
-.retroalimentacion {
+/* Barra de desplazamiento pixel en el contenido de la ventana
+   (scroll interno único en escritorio). */
+.ventana__contenido {
   scrollbar-width: thin;
   scrollbar-color: var(--amarillo) var(--azul-borde);
 }
 
-.tabla-scroll::-webkit-scrollbar,
-.retroalimentacion::-webkit-scrollbar {
+.ventana__contenido::-webkit-scrollbar {
   width: 8px;
 }
 
-.tabla-scroll::-webkit-scrollbar-track,
-.retroalimentacion::-webkit-scrollbar-track {
+.ventana__contenido::-webkit-scrollbar-track {
   background: var(--azul-borde);
 }
 
-.tabla-scroll::-webkit-scrollbar-thumb,
-.retroalimentacion::-webkit-scrollbar-thumb {
+.ventana__contenido::-webkit-scrollbar-thumb {
   background: var(--amarillo);
   border: 2px solid var(--azul-borde);
 }
