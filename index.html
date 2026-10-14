@@ -157,11 +157,205 @@
       </div>
     </section>
 
-    <!-- La fase 5 maqueta Juego, Resultado y Ranking + el modal de Ajustes. -->
-    <section class="pantalla" id="pantalla-juego" aria-label="Juego" hidden></section>
-    <section class="pantalla" id="pantalla-resultado" aria-label="Resultado" hidden></section>
-    <section class="pantalla" id="pantalla-ranking" aria-label="Ranking y estadísticas" hidden></section>
+    <!-- ================= 4. JUEGO ================= -->
+    <!-- Los estados 5A/5B/5C reutilizan esta pantalla: ui.js bloquea opciones,
+         pinta correcta/incorrecta, muestra la retroalimentación y la mascota (fase 11). -->
+    <section class="pantalla" id="pantalla-juego" aria-label="Juego" hidden>
+      <div class="ventana">
+        <div class="ventana__barra" aria-hidden="true">
+          <span class="ventana__punto"></span><span class="ventana__punto"></span><span class="ventana__punto"></span>
+        </div>
+        <div class="ventana__contenido">
+          <div class="juego-encabezado">
+            <span class="chip" id="juego-pregunta">PREGUNTA 1/10</span>
+            <span class="chip" id="juego-puntaje">PUNTAJE: 0</span>
+            <span class="chip chip--tiempo" id="juego-tiempo">20s</span>
+          </div>
+
+          <div class="barra" role="progressbar" aria-label="Progreso de preguntas" aria-valuemin="1" aria-valuemax="10" aria-valuenow="1" id="barra-progreso">
+            <div class="barra__relleno" id="relleno-progreso"></div>
+          </div>
+          <div class="barra barra--tiempo" aria-hidden="true" id="barra-tiempo">
+            <div class="barra__relleno" id="relleno-tiempo"></div>
+          </div>
+
+          <div class="panel">
+            <h2 class="enunciado" id="juego-enunciado" tabindex="-1"></h2>
+          </div>
+
+          <!-- ui.js genera aquí los 4 botones .opcion con su círculo A/B/C/D. -->
+          <div class="opciones" id="juego-opciones"></div>
+
+          <div class="ayudas">
+            <button type="button" class="btn btn--pequeno" id="comodin-cincuenta">🔥 50/50 −30</button>
+            <button type="button" class="btn btn--pequeno" id="comodin-tiempo">+10s −30</button>
+            <span class="chip" id="racha">RACHA 0/3 🔥</span>
+          </div>
+
+          <!-- Retroalimentación 5A/5B/5C: se muestra tras responder. -->
+          <div class="retroalimentacion" id="retroalimentacion" hidden>
+            <div class="mascota">
+              <img class="mascota__img" id="mascota-feedback" src="assets/img/mascota/capibara-celebrando.png" alt="Capibara celebrando" width="120" height="120" onerror="this.hidden = true; this.nextElementSibling.hidden = false;">
+              <span class="mascota__respaldo" hidden aria-hidden="true">🦫</span>
+            </div>
+            <div class="panel" role="status" id="panel-feedback"></div>
+            <button type="button" class="btn" id="btn-siguiente">SIGUIENTE</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 6. RESULTADO ================= -->
+    <section class="pantalla" id="pantalla-resultado" aria-label="Resultado" hidden>
+      <div class="ventana">
+        <div class="ventana__barra" aria-hidden="true">
+          <span class="ventana__punto"></span><span class="ventana__punto"></span><span class="ventana__punto"></span>
+        </div>
+        <div class="ventana__contenido">
+          <h2 tabindex="-1">FIN DEL JUEGO</h2>
+
+          <div class="mascota">
+            <img class="mascota__img" src="assets/img/mascota/oso-celebrando.png" alt="Oso de anteojos celebrando con confeti" width="160" height="160" onerror="this.hidden = true; this.nextElementSibling.hidden = false;">
+            <span class="mascota__respaldo" hidden aria-hidden="true">🐻</span>
+          </div>
+
+          <div class="panel panel--puntaje">
+            <p>PUNTAJE FINAL</p>
+            <p class="puntos-finales" id="resultado-puntos">0</p>
+            <!-- Solo visible si es posición #1 del ranking (ui.js, fase 11). -->
+            <p class="etiqueta-record" id="etiqueta-record" hidden>¡NUEVO RÉCORD!</p>
+          </div>
+
+          <div class="cajas">
+            <div class="caja">
+              <h3>ACIERTOS</h3>
+              <p id="resultado-aciertos">0/10</p>
+            </div>
+            <div class="caja">
+              <h3>TIEMPO</h3>
+              <p id="resultado-tiempo">0:00</p>
+            </div>
+            <div class="caja">
+              <h3>POSICIÓN</h3>
+              <p id="resultado-posicion">—</p>
+            </div>
+          </div>
+
+          <p class="mensaje-desempeno titulo-pixel" id="mensaje-desempeno"></p>
+          <p id="partida-perfecta" hidden>¡Partida perfecta!</p>
+
+          <div class="botones-columna">
+            <button type="button" class="btn" id="btn-revisar">REVISAR FALLOS</button>
+            <button type="button" class="btn" id="btn-jugar-nuevo">JUGAR DE NUEVO</button>
+            <button type="button" class="btn" id="btn-ver-ranking">VER RANKING</button>
+            <button type="button" class="btn" id="btn-ir-inicio">INICIO</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 7. RANKING Y ESTADÍSTICAS ================= -->
+    <section class="pantalla" id="pantalla-ranking" aria-label="Ranking y estadísticas" hidden>
+      <div class="ventana">
+        <div class="ventana__barra" aria-hidden="true">
+          <span class="ventana__punto"></span><span class="ventana__punto"></span><span class="ventana__punto"></span>
+        </div>
+        <div class="ventana__contenido">
+          <h2 class="sr-only" tabindex="-1">Ranking y estadísticas</h2>
+
+          <div class="tabs" role="tablist" aria-label="Ranking y estadísticas">
+            <button type="button" class="btn" role="tab" aria-selected="true" aria-controls="tab-ranking" id="tab-btn-ranking">RANKING</button>
+            <button type="button" class="btn btn--crema" role="tab" aria-selected="false" aria-controls="tab-stats" id="tab-btn-stats" tabindex="-1">ESTADÍSTICAS</button>
+          </div>
+
+          <div id="tab-ranking" role="tabpanel" aria-labelledby="tab-btn-ranking" tabindex="0">
+            <table class="tabla">
+              <caption class="sr-only">Top 10 de puntajes</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Pos</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Puntaje</th>
+                  <th scope="col" class="col-categoria">Categoría</th>
+                  <th scope="col" class="col-fecha">Fecha</th>
+                </tr>
+              </thead>
+              <!-- ui.js genera las filas; resalta la recién jugada con .is-actual. -->
+              <tbody id="ranking-cuerpo"></tbody>
+            </table>
+            <p id="ranking-vacio">Aún no hay partidas. ¡Sé el primero!</p>
+          </div>
+
+          <div id="tab-stats" role="tabpanel" aria-labelledby="tab-btn-stats" tabindex="0" hidden>
+            <div class="cajas cajas--stats">
+              <div class="caja">
+                <h3>PARTIDAS</h3>
+                <p id="stats-partidas">0</p>
+              </div>
+              <div class="caja">
+                <h3>ACIERTOS</h3>
+                <p id="stats-aciertos">—</p>
+              </div>
+              <div class="caja">
+                <h3>MEJOR PUNTAJE</h3>
+                <p id="stats-mejor">—</p>
+              </div>
+              <div class="caja">
+                <h3>MEJOR CATEGORÍA</h3>
+                <p id="stats-categoria">—</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="botones-columna">
+            <button type="button" class="btn btn--peligro" id="btn-borrar">BORRAR RANKING</button>
+            <button type="button" class="btn" id="btn-ranking-volver">VOLVER</button>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <!-- ================= 3B. AJUSTES (modal) ================= -->
+  <!-- Se abre con showModal() desde el engranaje (trampa de foco y Esc nativos). -->
+  <dialog id="modal-ajustes" aria-labelledby="titulo-ajustes">
+    <div class="modal-contenido">
+      <h2 id="titulo-ajustes" tabindex="-1">AJUSTES</h2>
+      <div class="ajuste-fila">
+        <span id="etiqueta-sonido">🔊 SONIDO</span>
+        <button type="button" class="switch" role="switch" aria-checked="true" aria-labelledby="etiqueta-sonido" id="switch-sonido"></button>
+      </div>
+      <div class="panel">
+        <h3 id="etiqueta-tema">🎨 TEMA</h3>
+        <div class="grupo-tema" role="group" aria-labelledby="etiqueta-tema">
+          <button type="button" class="btn is-seleccionado" aria-pressed="true" id="tema-oscuro">OSCURO</button>
+          <button type="button" class="btn btn--crema" aria-pressed="false" id="tema-claro">CLARO</button>
+        </div>
+      </div>
+      <button type="button" class="btn" id="btn-cerrar-ajustes">VOLVER</button>
+    </div>
+  </dialog>
+
+  <!-- Revisión de preguntas falladas (Resultado). ui.js llena la lista. -->
+  <dialog id="dialog-fallos" aria-labelledby="titulo-fallos">
+    <div class="modal-contenido">
+      <h2 id="titulo-fallos" tabindex="-1">REVISAR FALLOS</h2>
+      <div id="lista-fallos"></div>
+      <button type="button" class="btn" id="btn-cerrar-fallos">CERRAR</button>
+    </div>
+  </dialog>
+
+  <!-- Confirmación de borrado: las estadísticas se conservan (ver README). -->
+  <dialog id="dialog-borrar" aria-labelledby="titulo-borrar">
+    <div class="modal-contenido">
+      <h2 id="titulo-borrar" tabindex="-1">BORRAR RANKING</h2>
+      <p>¿Seguro? Esta acción no se puede deshacer.</p>
+      <div class="botones-columna">
+        <button type="button" class="btn btn--peligro" id="btn-confirmar-borrar">SÍ, BORRAR</button>
+        <button type="button" class="btn" id="btn-cancelar-borrar">CANCELAR</button>
+      </div>
+    </div>
+  </dialog>
 
   <footer>
     <p>Trivia Colombia · UDES Desarrollo Full Stack</p>

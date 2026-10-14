@@ -837,3 +837,194 @@ input.is-error {
   font-size: 0.9rem;
 }
 
+/* ============================================================
+   Fase 5: Juego, Resultado, Ranking y modales.
+   ============================================================ */
+
+/* Subtítulos pequeños dentro de paneles y ventanas. */
+h3 {
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: 0.65rem;
+  line-height: 1.6;
+  color: var(--blanco);
+  margin: 0 0 0.5rem;
+}
+
+.panel h3 {
+  color: var(--azul-borde);
+}
+
+/* Enunciado de la pregunta: lectura cómoda en Poppins sobre crema. */
+.panel .enunciado {
+  font-family: "Poppins", "Segoe UI", Arial, sans-serif;
+  font-weight: 600;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  color: var(--texto);
+  text-shadow: none;
+  margin: 0;
+}
+
+/* Encabezado del juego: chips de pregunta, puntaje y tiempo. */
+.juego-encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.juego-encabezado .chip {
+  flex: 1 1 0;
+  white-space: nowrap;
+}
+
+/* Lista de las 4 opciones. */
+.opciones {
+  display: grid;
+  gap: 0.6rem;
+}
+
+/* Fila de ayudas: comodines + racha. */
+.ayudas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ayudas .btn {
+  flex: 1 1 0;
+}
+
+.ayudas .chip {
+  flex: 1 1 100%;
+}
+
+/* Zona de retroalimentación 5A/5B/5C (oculta hasta responder). */
+.retroalimentacion {
+  display: grid;
+  gap: 1rem;
+}
+
+/* Puntaje final grande sobre el panel crema. */
+.panel--puntaje {
+  text-align: center;
+}
+
+.panel--puntaje p {
+  margin: 0.25rem 0;
+}
+
+.puntos-finales {
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: 1.6rem;
+  color: var(--azul-borde);
+}
+
+/* Cajas de resumen (aciertos, tiempo, posición y estadísticas). */
+.cajas {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.cajas--stats {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.caja {
+  background: var(--crema);
+  color: var(--texto);
+  border: 4px solid var(--azul-borde);
+  border-radius: 4px;
+  padding: 0.6rem 0.4rem;
+  text-align: center;
+}
+
+.caja h3 {
+  color: var(--azul-borde);
+  font-size: 0.5rem;
+}
+
+.caja p {
+  margin: 0.25rem 0 0;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: 0.8rem;
+}
+
+/* Mensaje según desempeño (¡EXCELENTE!, ¡MUY BIEN!...). */
+.mensaje-desempeno {
+  text-align: center;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Pestañas de Ranking / Estadísticas. */
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.tabs .btn {
+  font-size: 0.6rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
+/* Contenido interno de los dialogs. */
+.modal-contenido {
+  padding: 1.25rem 1rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.modal-contenido p {
+  margin: 0;
+}
+
+/* Fila SONIDO del modal de ajustes. */
+.ajuste-fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: var(--crema);
+  color: var(--texto);
+  border: 4px solid var(--azul-borde);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: 0.65rem;
+}
+
+/* Botones de tema OSCURO / CLARO. */
+.grupo-tema {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.grupo-tema .btn {
+  font-size: 0.55rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
+/* Elementos de la lista de fallos (ui.js los genera). */
+.fallo {
+  background: var(--crema);
+  color: var(--texto);
+  border: 4px solid var(--azul-borde);
+  border-radius: 4px;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.fallo p {
+  margin: 0.25rem 0;
+}
+
+.fallo .fallo-correcta {
+  color: var(--verde);
+  font-weight: 700;
+}
+
