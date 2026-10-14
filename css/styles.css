@@ -1044,6 +1044,30 @@ h3 {
   font-weight: 700;
 }
 
+/* Barras de desplazamiento pixel en contenedores con scroll interno
+   (tabla del ranking y bloque de retroalimentación). */
+.tabla-scroll,
+.retroalimentacion {
+  scrollbar-width: thin;
+  scrollbar-color: var(--amarillo) var(--azul-borde);
+}
+
+.tabla-scroll::-webkit-scrollbar,
+.retroalimentacion::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tabla-scroll::-webkit-scrollbar-track,
+.retroalimentacion::-webkit-scrollbar-track {
+  background: var(--azul-borde);
+}
+
+.tabla-scroll::-webkit-scrollbar-thumb,
+.retroalimentacion::-webkit-scrollbar-thumb {
+  background: var(--amarillo);
+  border: 2px solid var(--azul-borde);
+}
+
 /* ============================================================
    Fase 14: confeti de Resultado y pulido de animaciones.
    Pequeños cuadrados CSS que caen (opcionales según el diseño).

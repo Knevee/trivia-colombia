@@ -8,15 +8,16 @@
    ============================================================ */
 
 /* ---------- Base móvil estrecha ---------- */
-/* En el juego/feedback la mascota se reduce; si no cabe, se oculta. */
+/* En el juego/feedback la mascota se reduce (siempre visible). */
 .retroalimentacion .mascota__img {
-  width: 64px;
-  height: 64px;
+  width: 88px;
+  height: 88px;
 }
 
 @media (max-width: 380px) {
-  .retroalimentacion .mascota {
-    display: none;
+  .retroalimentacion .mascota__img {
+    width: 64px;
+    height: 64px;
   }
 }
 
@@ -143,11 +144,15 @@
 
   .retroalimentacion {
     gap: 0.5rem;
+    /* El bloque rueda por dentro si no cabe; el juego queda fijo y visible. */
+    max-height: 46dvh;
+    min-height: 0;
+    overflow-y: auto;
   }
 
   .retroalimentacion .mascota__img {
-    width: 72px;
-    height: 72px;
+    width: 96px;
+    height: 96px;
   }
 
   .puntos-finales {
@@ -289,10 +294,10 @@
     height: 80px;
   }
 
-  /* En pantallas bajas la mascota del feedback se oculta (es decorativa;
-     la información va en el panel) para que todo quepa. */
-  .retroalimentacion .mascota {
-    display: none;
+  /* Con scroll interno ya no se oculta la mascota: solo se reduce. */
+  .retroalimentacion .mascota__img {
+    width: 72px;
+    height: 72px;
   }
 
   .tarjeta img {
