@@ -238,8 +238,9 @@
 
   /* Instrucciones: columna lateral más ancha para el oso grande del diseño. */
   #pantalla-instrucciones .ventana__contenido {
-    grid-template-columns: minmax(0, 1fr) 210px;
+    grid-template-columns: minmax(0, 1fr) 230px;
     align-items: center;
+    gap: 0.5rem;
   }
 
   #pantalla-inicio .ventana__contenido > h1,
@@ -282,10 +283,27 @@
     height: 150px;
   }
 
-  /* Oso maestro protagonista, como en el diseño. */
+  /* Oso maestro protagonista, como en el diseño (la fila crece con él). */
   #pantalla-instrucciones .ventana__contenido > .mascota .mascota__img {
-    width: 190px;
-    height: 190px;
+    width: 210px;
+    height: 210px;
+  }
+
+  /* Paneles compactos de Instrucciones (sin aire extra). */
+  #pantalla-instrucciones .ventana__contenido > .panel {
+    padding: 0.6rem 0.75rem;
+  }
+
+  #pantalla-instrucciones .ventana__contenido > .panel h3,
+  #pantalla-instrucciones .ventana__contenido > .panel ol,
+  #pantalla-instrucciones .ventana__contenido > .panel p {
+    margin-top: 0;
+    margin-bottom: 0.25rem;
+  }
+
+  #pantalla-instrucciones .ventana__contenido > .panel p:last-child,
+  #pantalla-instrucciones .ventana__contenido > .panel ol:last-child {
+    margin-bottom: 0;
   }
 }
 
