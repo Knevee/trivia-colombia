@@ -459,6 +459,7 @@ footer {
 
 /* ---------- 11. Ventana (marco de cada pantalla) ---------- */
 .ventana {
+  position: relative; /* referencia para el confeti de Resultado */
   background: var(--azul);
   border: 4px solid var(--azul-borde);
   border-radius: 4px;
@@ -1026,5 +1027,42 @@ h3 {
 .fallo .fallo-correcta {
   color: var(--verde);
   font-weight: 700;
+}
+
+/* ============================================================
+   Fase 14: confeti de Resultado y pulido de animaciones.
+   Pequeños cuadrados CSS que caen (opcionales según el diseño).
+   Con prefers-reduced-motion se desactivan (bloque global de fase 2).
+   ============================================================ */
+.confeti {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none; /* decorativo: nunca bloquea clics */
+}
+
+.confeti__pieza {
+  position: absolute;
+  top: -12px;
+  width: 8px;
+  height: 8px;
+  animation: caida-confeti 2.8s steps(12) infinite;
+}
+
+@keyframes caida-confeti {
+  to {
+    transform: translateY(340px) rotate(180deg);
+  }
+}
+
+/* Pulido: presión pixel en tarjetas y opciones (coherente con .btn:active). */
+.tarjeta,
+.opcion {
+  transition: transform 0.08s steps(2);
+}
+
+.tarjeta:active,
+.opcion:not(:disabled):not(.bloqueada):active {
+  transform: translateY(2px);
 }
 

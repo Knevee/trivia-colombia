@@ -194,6 +194,27 @@ export function mostrarResultado(posicion = null) {
   if (!perfecta) {
     pintarFallos();
   }
+  generarConfeti();
+}
+
+// Confeti de celebración: cuadrados con colores de la bandera + verde y crema,
+// repartidos al azar (posición y retardo). Es decorativo (aria-hidden en el HTML).
+const COLORES_CONFETI = ['#FCD116', '#003893', '#CE1126', '#2E9E5B', '#FFF3D6'];
+
+function generarConfeti() {
+  const contenedor = document.getElementById('confeti');
+  if (!contenedor) {
+    return;
+  }
+  contenedor.replaceChildren();
+  for (let i = 0; i < 24; i++) {
+    const pieza = document.createElement('span');
+    pieza.className = 'confeti__pieza';
+    pieza.style.left = `${Math.floor(Math.random() * 100)}%`;
+    pieza.style.background = COLORES_CONFETI[i % COLORES_CONFETI.length];
+    pieza.style.animationDelay = `${(Math.random() * 2.8).toFixed(2)}s`;
+    contenedor.append(pieza);
+  }
 }
 
 // m:ss con la suma de los segundos empleados.
