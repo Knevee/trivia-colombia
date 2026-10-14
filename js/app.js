@@ -17,8 +17,18 @@ import {
   mostrarRetroalimentacion,
   mostrarResultado,
   pintarEliminadas,
-  pintarComodines
+  pintarComodines,
+  pintarRanking,
+  pintarStats
 } from './ui.js';
+import {
+  guardarEnRanking,
+  actualizarEstadisticas,
+  obtenerRanking,
+  obtenerStats,
+  borrarRanking,
+  obtenerMejorPuntaje
+} from './almacenamiento.js';
 
 // Selección actual de Configuración (en el HTML: Todas + Medio por defecto).
 let categoriaElegida = 'todas';
@@ -69,12 +79,40 @@ function alSiguiente() {
   }
 }
 
-// Cierra la partida: detiene el tiempo y muestra el resumen.
-// La fase 12 guarda aquí el ranking y las estadísticas.
+// Cierra la partida: guarda ranking y estadísticas, muestra el resumen.
 function terminarPartida() {
   limpiarTemporizador();
-  mostrarResultado();
+  const partida = {
+    nombre: estado.jugador,
+    puntaje: estado.puntaje,
+    categoria: estado.categoria,
+    dificultad: estado.dificultad,
+    fecha: new Date().toISOString()
+  };
+  const posicion = guardarEnRanking(partida); // 1-based o null
+  actualizarEstadisticas({
+    aciertos: estado.aciertos,
+    respondidas: estado.preguntas.length,
+    puntaje: estado.puntaje,
+    categoria: estado.categoria,
+    dificultad: estado.dificultad
+  });
+  mostrarResultado(posicion);
+  refrescarRanking(posicion === null ? -1 : posicion - 1);
   irAPantalla('pantalla-resultado');
+}
+
+// Repinta la tabla y las estadísticas con lo guardado.
+function refrescarRanking(indiceResaltado = -1) {
+  pintarRanking(obtenerRanking(), indiceResaltado);
+  pintarStats(obtenerStats());
+}
+
+// "Tu mejor puntaje: N" para la combinación elegida (o "Aún sin partidas").
+function actualizarMejorPuntaje() {
+  const mejor = obtenerMejorPuntaje(categoriaElegida, dificultadElegida);
+  document.getElementById('mejor-puntaje').textContent =
+    mejor === 0 ? 'Tu mejor puntaje: Aún sin partidas' : `Tu mejor puntaje: ${mejor}`;
 }
 
 // CP-01: el nombre es obligatorio (vacío o solo espacios no avanza).
@@ -144,6 +182,7 @@ function iniciar() {
       return;
     }
     estado.jugador = nombre;
+    actualizarMejorPuntaje();
     irAPantalla('pantalla-config');
   });
   document.getElementById('nombre-jugador').addEventListener('input', (evento) => {
@@ -151,7 +190,10 @@ function iniciar() {
     evento.target.classList.remove('is-error');
   });
   document.getElementById('btn-ir-instrucciones').addEventListener('click', () => irAPantalla('pantalla-instrucciones'));
-  document.getElementById('btn-ir-ranking').addEventListener('click', () => irAPantalla('pantalla-ranking'));
+  document.getElementById('btn-ir-ranking').addEventListener('click', () => {
+    refrescarRanking();
+    irAPantalla('pantalla-ranking');
+  });
   document.getElementById('btn-volver-inicio').addEventListener('click', () => irAPantalla('pantalla-inicio'));
 
   // --- Ajustes (la lógica de sonido/tema llega en la fase 13) ---
@@ -161,7 +203,10 @@ function iniciar() {
 
   // --- Configuración ---
   document.querySelectorAll('.tarjeta').forEach((tarjeta) => {
-    tarjeta.addEventListener('click', () => elegirCategoria(tarjeta));
+    tarjeta.addEventListener('click', () => {
+      elegirCategoria(tarjeta);
+      actualizarMejorPuntaje();
+    });
     tarjeta.addEventListener('keydown', (evento) => {
       if (evento.key === 'ArrowRight' || evento.key === 'ArrowDown') {
         evento.preventDefault();
@@ -173,7 +218,10 @@ function iniciar() {
     });
   });
   document.querySelectorAll('.grupo-dificultad .btn').forEach((boton) => {
-    boton.addEventListener('click', () => elegirDificultad(boton));
+    boton.addEventListener('click', () => {
+      elegirDificultad(boton);
+      actualizarMejorPuntaje();
+    });
   });
   document.getElementById('btn-comenzar').addEventListener('click', () => {
     iniciarPartida(categoriaElegida, dificultadElegida);
@@ -238,10 +286,13 @@ function iniciar() {
     irAPantalla('pantalla-juego');
     arrancarPregunta();
   });
-  document.getElementById('btn-ver-ranking').addEventListener('click', () => irAPantalla('pantalla-ranking'));
+  document.getElementById('btn-ver-ranking').addEventListener('click', () => {
+    refrescarRanking();
+    irAPantalla('pantalla-ranking');
+  });
   document.getElementById('btn-ir-inicio').addEventListener('click', () => irAPantalla('pantalla-inicio'));
 
-  // --- Ranking (el borrado real llega en la fase 12) ---
+  // --- Ranking ---
   document.getElementById('tab-btn-ranking').addEventListener('click', (e) => elegirPestana(e.target));
   document.getElementById('tab-btn-stats').addEventListener('click', (e) => elegirPestana(e.target));
   document.querySelector('.tabs').addEventListener('keydown', (evento) => {
@@ -257,6 +308,11 @@ function iniciar() {
   });
   document.getElementById('btn-borrar').addEventListener('click', () => {
     document.getElementById('dialog-borrar').showModal();
+  });
+  document.getElementById('btn-confirmar-borrar').addEventListener('click', () => {
+    borrarRanking(); // las estadísticas se conservan
+    refrescarRanking();
+    document.getElementById('dialog-borrar').close();
   });
   document.getElementById('btn-cancelar-borrar').addEventListener('click', () => {
     document.getElementById('dialog-borrar').close();

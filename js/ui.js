@@ -3,6 +3,7 @@
 // temporizador); solo lee el estado de juego.js y pinta. app.js conecta eventos.
 // Todo texto de usuario se asigna con textContent (nunca innerHTML).
 import { estado, TOTAL_PREGUNTAS, SEGUNDOS_POR_PREGUNTA } from './juego.js';
+import { CATEGORIAS } from './preguntas.js';
 
 const LETRAS = ['A', 'B', 'C', 'D'];
 
@@ -176,14 +177,15 @@ function fijarMascota(img, datos) {
   img.src = datos.src;
 }
 
-// Pinta el resumen final. La posición la calcula guardarEnRanking (fase 12);
-// por defecto muestra "—". El récord solo se muestra si es posición #1.
-export function mostrarResultado(posicion = '—') {
+// Pinta el resumen final. posicion es 1-based o null si no entró al top 10.
+// El récord solo se muestra si es posición #1.
+export function mostrarResultado(posicion = null) {
+  const pos = posicion ?? '—';
   document.getElementById('resultado-puntos').textContent = String(estado.puntaje);
   document.getElementById('resultado-aciertos').textContent = `${estado.aciertos}/${estado.preguntas.length}`;
   document.getElementById('resultado-tiempo').textContent = formatearTiempo(estado.tiempoTotal);
-  document.getElementById('resultado-posicion').textContent = posicion === '—' ? '—' : `#${posicion}`;
-  document.getElementById('etiqueta-record').hidden = posicion !== 1;
+  document.getElementById('resultado-posicion').textContent = pos === '—' ? '—' : `#${pos}`;
+  document.getElementById('etiqueta-record').hidden = pos !== 1;
   document.getElementById('mensaje-desempeno').textContent = mensajeDesempeno(estado.aciertos);
 
   const perfecta = estado.fallos.length === 0;
@@ -235,4 +237,63 @@ function pintarFallos() {
     caja.append(enunciado, tuya, correcta, explicacion);
     lista.append(caja);
   });
+}
+
+// Pinta el top 10 (fecha en formato dd/mm/aaaa). Resalta en amarillo
+// la fila indicada (la partida recién jugada) con .is-actual.
+export function pintarRanking(ranking, indiceResaltado = -1) {
+  const cuerpo = document.getElementById('ranking-cuerpo');
+  cuerpo.replaceChildren();
+  ranking.forEach((entrada, i) => {
+    const fila = document.createElement('tr');
+    if (i === indiceResaltado) {
+      fila.classList.add('is-actual');
+    }
+    const celdas = [
+      String(i + 1),
+      entrada.nombre,
+      String(entrada.puntaje),
+      CATEGORIAS[entrada.categoria] ?? entrada.categoria,
+      formatearFecha(entrada.fecha)
+    ];
+    celdas.forEach((texto) => {
+      const celda = document.createElement('td');
+      celda.textContent = texto;
+      fila.append(celda);
+    });
+    cuerpo.append(fila);
+  });
+  document.getElementById('ranking-vacio').hidden = ranking.length > 0;
+}
+
+function formatearFecha(iso) {
+  const fecha = new Date(iso);
+  if (Number.isNaN(fecha.getTime())) {
+    return '—';
+  }
+  const dia = String(fecha.getUTCDate()).padStart(2, '0');
+  const mes = String(fecha.getUTCMonth() + 1).padStart(2, '0');
+  return `${dia}/${mes}/${fecha.getUTCFullYear()}`;
+}
+
+// Pinta las cuatro cajas de estadísticas. Sin datos muestra "—".
+export function pintarStats(stats) {
+  document.getElementById('stats-partidas').textContent = String(stats.partidas);
+  document.getElementById('stats-aciertos').textContent =
+    stats.respondidas === 0 ? '—' : `${Math.round((stats.aciertos / stats.respondidas) * 100)}%`;
+  document.getElementById('stats-mejor').textContent =
+    stats.mejorPuntaje === 0 ? '—' : String(stats.mejorPuntaje);
+  let mejorCategoria = null;
+  let mejorPorcentaje = -1;
+  Object.entries(stats.porCategoria).forEach(([categoria, datos]) => {
+    if (datos.respondidas > 0) {
+      const porcentaje = datos.aciertos / datos.respondidas;
+      if (porcentaje > mejorPorcentaje) {
+        mejorPorcentaje = porcentaje;
+        mejorCategoria = categoria;
+      }
+    }
+  });
+  document.getElementById('stats-categoria').textContent =
+    mejorCategoria === null ? '—' : CATEGORIAS[mejorCategoria];
 }
