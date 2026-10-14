@@ -239,7 +239,7 @@
   /* Instrucciones: fila de 3 columnas (PUNTUACIÓN + COMODINES + oso).
      El oso va a la altura de los paneles y los comodines quedan a la izquierda. */
   #pantalla-instrucciones .ventana__contenido {
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) 230px;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) 310px;
     align-items: center;
     gap: 0.5rem;
   }
@@ -290,8 +290,8 @@
 
   /* Oso maestro protagonista, como en el diseño (la fila crece con él). */
   #pantalla-instrucciones .ventana__contenido > .mascota .mascota__img {
-    width: 220px;
-    height: 220px;
+    width: 300px;
+    height: 300px;
   }
 
   /* Paneles compactos de Instrucciones (sin aire extra). */
@@ -354,8 +354,8 @@
 
   /* El oso de Instrucciones se mantiene grande (la ventana rueda por dentro). */
   #pantalla-instrucciones .ventana__contenido > .mascota .mascota__img {
-    width: 150px;
-    height: 150px;
+    width: 220px;
+    height: 220px;
   }
 
   /* Con scroll interno ya no se oculta la mascota: solo se reduce. */
