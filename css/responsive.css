@@ -236,9 +236,10 @@
     align-items: center;
   }
 
-  /* Instrucciones: columna lateral más ancha para el oso grande del diseño. */
+  /* Instrucciones: fila de 3 columnas (PUNTUACIÓN + COMODINES + oso).
+     El oso va a la altura de los paneles y los comodines quedan a la izquierda. */
   #pantalla-instrucciones .ventana__contenido {
-    grid-template-columns: minmax(0, 1fr) 230px;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) 200px;
     align-items: center;
     gap: 0.5rem;
   }
@@ -256,8 +257,8 @@
     grid-row: 2 / span 3;
   }
 
-  /* Instrucciones (como el diseño): lista completa; PUNTUACIÓN y COMODINES
-     lado a lado; VOLVER a la izquierda y el oso abajo a la derecha. */
+  /* Instrucciones (como el diseño): lista completa; PUNTUACIÓN, COMODINES
+     y oso lado a lado; VOLVER abajo a la izquierda. */
   #pantalla-instrucciones .ventana__contenido > .panel--puntuacion {
     grid-column: 1;
     grid-row: 3;
@@ -269,13 +270,13 @@
   }
 
   #pantalla-instrucciones .ventana__contenido > .btn {
-    grid-column: 1;
+    grid-column: 1 / span 2;
     grid-row: 4;
   }
 
   #pantalla-instrucciones .ventana__contenido > .mascota {
-    grid-column: 2;
-    grid-row: 4;
+    grid-column: 3;
+    grid-row: 3 / span 2;
   }
 
   #pantalla-inicio .ventana__contenido > .mascota .mascota__img {
@@ -285,8 +286,8 @@
 
   /* Oso maestro protagonista, como en el diseño (la fila crece con él). */
   #pantalla-instrucciones .ventana__contenido > .mascota .mascota__img {
-    width: 210px;
-    height: 210px;
+    width: 200px;
+    height: 200px;
   }
 
   /* Paneles compactos de Instrucciones (sin aire extra). */
