@@ -1,2 +1,254 @@
-/* Trivia Colombia · css/styles.css */
-/* Fase 1: archivo base. Variables, tema claro/oscuro, fondo y componentes se implementan en las fases 2 y 3. */
+/* ============================================================
+   Trivia Colombia · css/styles.css
+   Fase 2: variables, tipografías y base pixel retro.
+   - :root = tema oscuro (por defecto). [data-theme="light"] lo sobrescribe.
+   - Fondo: azul con patrón de puntos + montañas pixeladas + franjas tricolor.
+   - Los componentes (botones, opciones, paneles, ventana) llegan en la fase 3.
+   - Las media queries viven en responsive.css (fase 6).
+   ============================================================ */
+
+/* ---------- 1. Variables de color (§3 de AGENTS.md) ---------- */
+:root {
+  --amarillo: #FCD116;      /* botones, títulos, acentos */
+  --azul: #003893;          /* paneles, botones secundarios, encabezados */
+  --azul-fondo: #0A1F63;    /* fondo de pantalla (derivado, más oscuro que --azul) */
+  --azul-borde: #0A1440;    /* contornos gruesos de todo elemento */
+  --rojo: #CE1126;          /* sombra de botones/títulos, error, borrar */
+  --verde: #2E9E5B;         /* acierto, interruptor activado */
+  --crema: #FFF3D6;         /* paneles de texto, opciones normales */
+  --texto: #0A1440;         /* texto sobre crema */
+  --blanco: #FFFFFF;        /* texto sobre azul */
+
+  /* Derivados solo para el fondo (se ajustan solo aquí si cambia el Figma). */
+  --punto: #1B3A8F;         /* puntos del patrón sobre el fondo oscuro */
+  --montana-atras: #12307E; /* cordillera lejana */
+  --montana-frente: #060F38;/* cordillera cercana (más oscura que --azul-borde) */
+  --amarillo-claro: #FFE45C;/* hover de botones amarillos */
+
+  color-scheme: dark;
+}
+
+/* ---------- 2. Tema claro ---------- */
+[data-theme="light"] {
+  --azul-fondo: #EAF1FF;    /* fondo claro con el mismo patrón de puntos */
+  --punto: #B9CCF2;         /* puntos en azul claro */
+  --montana-atras: #C4D6FA;
+  --montana-frente: #A9C2F5;
+  --blanco: #0A1440;        /* el texto "sobre azul" pasa a tinta oscura */
+  /* Amarillo, rojo y verde se mantienen. Contraste texto/fondo ≥ 4.5:1. */
+
+  color-scheme: light;
+}
+
+/* ---------- 3. Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;   /* respaldo para navegadores sin dvh */
+  min-height: 100dvh;
+  overflow-x: hidden;  /* sin scroll horizontal (más min-width: 0 abajo) */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+
+  /* Texto de lectura: Poppins 600. Texto mínimo absoluto: 14px. */
+  font-family: "Poppins", "Segoe UI", Arial, sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--blanco);
+
+  /* Fondo azul oscuro + patrón de puntos (2 px cada 16 px: es un patrón, no un degradado). */
+  background-color: var(--azul-fondo);
+  background-image: radial-gradient(var(--punto) 1px, transparent 1.6px);
+  background-size: 16px 16px;
+}
+
+/* Contenido centrado (base móvil; los anchos de tableta/escritorio se ajustan en responsive.css). */
+main {
+  width: 100%;
+  max-width: 560px;
+  margin-inline: auto;
+  padding: 1rem 1rem 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+main > * {
+  min-width: 0; /* evita que el contenido fuerce scroll horizontal */
+}
+
+h1,
+h2,
+p {
+  overflow-wrap: break-word;
+}
+
+/* Oculto funcional: lo usa la navegación entre pantallas (ui.js, fase 11). */
+[hidden] {
+  display: none !important;
+}
+
+/* Imágenes del juego siempre en modo pixel. Tamaños fijos por pantalla (fases 4-6). */
+img {
+  image-rendering: pixelated;
+  max-width: 100%;
+}
+
+/* Texto solo para lectores de pantalla (p. ej. el label del nombre en Inicio). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Foco bien visible con teclado en toda la app. */
+:focus-visible {
+  outline: 3px solid var(--blanco);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--amarillo);
+  color: var(--azul-borde);
+}
+
+/* ---------- 4. Tipografía pixel (títulos, botones y números grandes) ---------- */
+h1,
+h2,
+.titulo-pixel {
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-weight: 400;
+  line-height: 1.6; /* la fuente es ancha: aire entre líneas y salto permitido */
+  color: var(--amarillo);
+  /* Contorno azul oscuro simulado + sombra roja desplazada. */
+  text-shadow:
+    -2px -2px 0 var(--azul-borde),
+    2px -2px 0 var(--azul-borde),
+    -2px 2px 0 var(--azul-borde),
+    2px 2px 0 var(--azul-borde),
+    4px 4px 0 var(--rojo);
+}
+
+h1 {
+  font-size: 1.4rem;
+}
+
+h2 {
+  font-size: 1rem;
+}
+
+/* Enunciados y textos largos siempre en Poppins para una lectura cómoda. */
+.enunciado {
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+}
+
+/* ---------- 5. Franjas tricolor (amarillo, azul, rojo) ---------- */
+/* Barra superior fija de 6 px con bandas duras (bandera, sin transición suave). */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  z-index: 50;
+  background: linear-gradient(
+    to bottom,
+    var(--amarillo) 0 33.4%,
+    var(--azul) 33.4% 66.7%,
+    var(--rojo) 66.7% 100%
+  );
+}
+
+/* Barra inferior fija de 6 px, igual que la superior. */
+body::after {
+  content: "";
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  z-index: 50;
+  background: linear-gradient(
+    to bottom,
+    var(--amarillo) 0 33.4%,
+    var(--azul) 33.4% 66.7%,
+    var(--rojo) 66.7% 100%
+  );
+}
+
+/* ---------- 6. Montañas pixeladas (fondo inferior, decorativas) ---------- */
+/* Cordillera lejana: picos escalonados con clip-path (sin imágenes ni blur). */
+html::before {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 6px; /* encima de la franja tricolor inferior */
+  height: 110px;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--montana-atras);
+  clip-path: polygon(
+    0 100%, 0 62%, 6% 62%, 9% 44%, 13% 44%, 16% 62%,
+    24% 62%, 29% 38%, 33% 38%, 36% 56%, 42% 56%, 46% 68%,
+    54% 68%, 58% 46%, 62% 46%, 66% 64%, 72% 64%, 76% 42%,
+    80% 42%, 84% 62%, 91% 62%, 94% 50%, 97% 50%, 100% 66%,
+    100% 100%
+  );
+}
+
+/* Cordillera cercana: picos más altos y oscuros delante de la lejana. */
+html::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 6px;
+  height: 70px;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--montana-frente);
+  clip-path: polygon(
+    0 100%, 0 70%, 8% 70%, 12% 48%, 16% 48%, 20% 70%,
+    32% 70%, 38% 40%, 44% 40%, 48% 66%, 60% 66%, 65% 50%,
+    70% 50%, 74% 70%, 86% 70%, 91% 44%, 96% 44%, 100% 64%,
+    100% 100%
+  );
+}
+
+/* El header y el footer quedan por encima de las montañas. */
+header,
+footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- 7. Movimiento reducido ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
