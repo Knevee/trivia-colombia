@@ -193,3 +193,39 @@ export function siguientePregunta() {
   estado.respondida = false;
   return estado.preguntas[estado.indiceActual];
 }
+
+// ---------- Comodines (uno de cada uno por partida) ----------
+
+// Costo fijo de cada comodín: se resta del puntaje total en ese instante
+// (sin multiplicador) y el total nunca baja de 0.
+export const COSTO_COMODIN = 30;
+
+// Aplica el comodín 'cincuenta' (elimina dos incorrectas al azar) o 'tiempo'
+// (suma 10 s). Descuenta 30 puntos. Devuelve null si no se puede usar
+// (ya usado o pregunta respondida). ui.js deshabilita el botón con este dato.
+export function usarComodin(tipo) {
+  if (estado.respondida) {
+    return null;
+  }
+  if (tipo === 'cincuenta') {
+    if (!estado.comodines.cincuenta) {
+      return null;
+    }
+    estado.comodines.cincuenta = false;
+    estado.puntaje = Math.max(0, estado.puntaje - COSTO_COMODIN);
+    const pregunta = estado.preguntas[estado.indiceActual];
+    const incorrectas = [0, 1, 2, 3].filter((i) => i !== pregunta.correcta);
+    const eliminadas = mezclar(incorrectas).slice(0, 2);
+    return { tipo, eliminadas };
+  }
+  if (tipo === 'tiempo') {
+    if (!estado.comodines.tiempo) {
+      return null;
+    }
+    estado.comodines.tiempo = false;
+    estado.puntaje = Math.max(0, estado.puntaje - COSTO_COMODIN);
+    agregarTiempo(10);
+    return { tipo, segundos: estado.tiempoRestante };
+  }
+  return null;
+}
