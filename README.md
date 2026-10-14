@@ -4,14 +4,17 @@ Juego web de preguntas sobre Colombia (UDES, Desarrollo Full Stack). El jugador 
 
 ## Tecnologías
 
-HTML5, CSS3 y JavaScript ES6+ vanilla. Sin frameworks, sin npm, sin bundlers, sin TypeScript, sin librerías de UI (salvo Google Fonts). Sin servidor: todo corre en el navegador y la persistencia usa `localStorage`.
+HTML5, CSS3 y JavaScript vanilla con scripts clásicos (sin módulos ES, para que funcione también con doble clic). Sin frameworks, sin npm, sin bundlers, sin TypeScript, sin librerías de UI (salvo Google Fonts). Sin servidor: todo corre en el navegador y la persistencia usa `localStorage`.
+
+> **Decisión documentada:** el AGENTS.md pedía módulos ES, pero estos no cargan con `file://` (el navegador los bloquea por CORS) y el juego quedaba muerto al abrirlo con doble clic. Se usan scripts clásicos en orden de dependencia (`preguntas → juego → almacenamiento → ui → app`), manteniendo la separación datos/lógica/UI y la estructura de archivos.
 
 ## Cómo ejecutarlo localmente
 
-El proyecto usa módulos ES (`<script type="module">`), que los navegadores bloquean con `file://` por seguridad (CORS). Por eso **no abre con doble clic**. Usa un servidor local:
+Funciona con **doble clic en `index.html`** y también con servidor local:
 
-- **Opción 1 — Live Server (VS Code):** instala la extensión Live Server, abre `index.html` y pulsa "Go Live".
-- **Opción 2 — npx serve:** en la raíz del proyecto ejecuta `npx serve .` y abre la URL que muestra (por ejemplo, `http://localhost:3000`).
+- **Opción 1 — doble clic:** abre `index.html` en Chrome, Firefox, Edge o Safari.
+- **Opción 2 — Live Server (VS Code):** extensión Live Server, clic derecho en `index.html` → "Open with Live Server".
+- **Opción 3 — npx serve:** en la raíz ejecuta `npx serve .` y abre la URL indicada.
 
 ## Estructura del proyecto
 

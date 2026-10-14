@@ -2,7 +2,7 @@
 // Ranking, estadísticas y preferencias en localStorage.
 // Todas las lecturas usan try/catch + validación: si el JSON está corrupto,
 // se reinicia a valores por defecto sin romper la app.
-import { CATEGORIAS } from './preguntas.js';
+// Usa CATEGORIAS (de preguntas.js, cargado antes).
 
 const CLAVE_RANKING = 'trivia_ranking';
 const CLAVE_STATS = 'trivia_stats';
@@ -45,7 +45,7 @@ function entradaValida(e) {
 // ---------- Ranking (top 10) ----------
 
 // Devuelve el ranking validado y ordenado de mayor a menor puntaje.
-export function obtenerRanking() {
+function obtenerRanking() {
   const datos = leerJSON(CLAVE_RANKING);
   if (!Array.isArray(datos)) {
     return [];
@@ -63,7 +63,7 @@ function compararEntradas(a, b) {
 
 // Agrega la partida, ordena y conserva el top 10.
 // Devuelve la posición (1-based) o null si no entró al top 10.
-export function guardarEnRanking(partida) {
+function guardarEnRanking(partida) {
   const ranking = obtenerRanking();
   ranking.push({
     nombre: partida.nombre,
@@ -82,7 +82,7 @@ export function guardarEnRanking(partida) {
 }
 
 // Borra solo el ranking. Las estadísticas se conservan (ver README).
-export function borrarRanking() {
+function borrarRanking() {
   try {
     localStorage.removeItem(CLAVE_RANKING);
   } catch {
@@ -100,7 +100,7 @@ function statsDefecto() {
   return { partidas: 0, respondidas: 0, aciertos: 0, mejorPuntaje: 0, mejores: {}, porCategoria };
 }
 
-export function obtenerStats() {
+function obtenerStats() {
   const base = statsDefecto();
   const datos = leerJSON(CLAVE_STATS);
   if (datos === null || typeof datos !== 'object' || Array.isArray(datos)) {
@@ -129,7 +129,7 @@ export function obtenerStats() {
 }
 
 // Acumula una partida: { aciertos, respondidas, puntaje, categoria, dificultad }.
-export function actualizarEstadisticas(partida) {
+function actualizarEstadisticas(partida) {
   const stats = obtenerStats();
   stats.partidas += 1;
   stats.respondidas += partida.respondidas;
@@ -146,13 +146,13 @@ export function actualizarEstadisticas(partida) {
 }
 
 // Mejor puntaje para una combinación categoría + dificultad (0 si no hay partidas).
-export function obtenerMejorPuntaje(categoria, dificultad) {
+function obtenerMejorPuntaje(categoria, dificultad) {
   return obtenerStats().mejores[`${categoria}|${dificultad}`] || 0;
 }
 
 // ---------- Preferencias (sonido, tema y nombre; la UI llega en la fase 13) ----------
 
-export function obtenerPrefs() {
+function obtenerPrefs() {
   const datos = leerJSON(CLAVE_PREFS);
   if (datos === null || typeof datos !== 'object' || Array.isArray(datos)) {
     return { ...PREFS_DEFECTO };
@@ -164,6 +164,6 @@ export function obtenerPrefs() {
   };
 }
 
-export function guardarPrefs(prefs) {
+function guardarPrefs(prefs) {
   escribirJSON(CLAVE_PREFS, prefs);
 }

@@ -1,9 +1,7 @@
 // Trivia Colombia · js/ui.js
 // Renderizado en el DOM. REGLA: no contiene reglas de juego (puntos, racha,
-// temporizador); solo lee el estado de juego.js y pinta. app.js conecta eventos.
+// temporizador); solo lee el estado global de juego.js y pinta. app.js conecta eventos.
 // Todo texto de usuario se asigna con textContent (nunca innerHTML).
-import { estado, TOTAL_PREGUNTAS, SEGUNDOS_POR_PREGUNTA } from './juego.js';
-import { CATEGORIAS } from './preguntas.js';
 
 const LETRAS = ['A', 'B', 'C', 'D'];
 
@@ -14,7 +12,7 @@ const MASCOTAS_FEEDBACK = {
 };
 
 // Alterna secciones y gestiona foco + anuncio para lectores de pantalla.
-export function mostrarPantalla(id) {
+function mostrarPantalla(id) {
   document.querySelectorAll('.pantalla').forEach((seccion) => {
     seccion.hidden = seccion.id !== id;
   });
@@ -31,7 +29,7 @@ export function mostrarPantalla(id) {
 
 // Pinta la pregunta actual: encabezado, barras, enunciado y opciones.
 // No inicia el temporizador (lo hace app.js con iniciarTemporizador).
-export function mostrarPregunta() {
+function mostrarPregunta() {
   const pregunta = estado.preguntas[estado.indiceActual];
   const numero = estado.indiceActual + 1;
 
@@ -71,7 +69,7 @@ export function mostrarPregunta() {
 
 // Actualiza chip y barra de tiempo cada segundo (la llama app.js).
 // El anuncio para lectores se actualiza cada 5 s para no saturarlos.
-export function actualizarTiempo(segundos) {
+function actualizarTiempo(segundos) {
   const chip = document.getElementById('juego-tiempo');
   chip.textContent = `${segundos}s`;
   chip.classList.toggle('is-bajo', segundos < 6);
@@ -87,26 +85,26 @@ export function actualizarTiempo(segundos) {
 }
 
 // Barra "RACHA n/3": muestra racha % 3 (o 3 al completarla).
-export function pintarRacha() {
+function pintarRacha() {
   const n = estado.racha === 0 ? 0 : estado.racha % 3 === 0 ? 3 : estado.racha % 3;
   document.getElementById('racha').textContent = `RACHA ${n}/3 🔥`;
 }
 
 // Deshabilita el botón del comodín ya usado.
-export function pintarComodines() {
+function pintarComodines() {
   document.getElementById('comodin-cincuenta').disabled = !estado.comodines.cincuenta;
   document.getElementById('comodin-tiempo').disabled = !estado.comodines.tiempo;
 }
 
 // Marca las opciones eliminadas por el 50/50 (conservan el espacio).
-export function pintarEliminadas(indices) {
+function pintarEliminadas(indices) {
   const botones = document.getElementById('juego-opciones').children;
   indices.forEach((i) => botones[i].classList.add('is-eliminada'));
 }
 
 // Estados 5A/5B/5C: bloquea opciones, pinta correcta/incorrecta,
 // muestra explicación + mascota y el botón SIGUIENTE (o VER RESULTADO).
-export function mostrarRetroalimentacion(resultado) {
+function mostrarRetroalimentacion(resultado) {
   const pregunta = estado.preguntas[estado.indiceActual];
   const fallo = estado.fallos[estado.fallos.length - 1];
   const elegida = fallo ? fallo.elegida : null;
@@ -179,7 +177,7 @@ function fijarMascota(img, datos) {
 
 // Pinta el resumen final. posicion es 1-based o null si no entró al top 10.
 // El récord solo se muestra si es posición #1.
-export function mostrarResultado(posicion = null) {
+function mostrarResultado(posicion = null) {
   const pos = posicion ?? '—';
   document.getElementById('resultado-puntos').textContent = String(estado.puntaje);
   document.getElementById('resultado-aciertos').textContent = `${estado.aciertos}/${estado.preguntas.length}`;
@@ -218,7 +216,7 @@ function generarConfeti() {
 }
 
 // m:ss con la suma de los segundos empleados.
-export function formatearTiempo(segundos) {
+function formatearTiempo(segundos) {
   const minutos = Math.floor(segundos / 60);
   const resto = segundos % 60;
   return `${minutos}:${String(resto).padStart(2, '0')}`;
@@ -262,7 +260,7 @@ function pintarFallos() {
 
 // Pinta el top 10 (fecha en formato dd/mm/aaaa). Resalta en amarillo
 // la fila indicada (la partida recién jugada) con .is-actual.
-export function pintarRanking(ranking, indiceResaltado = -1) {
+function pintarRanking(ranking, indiceResaltado = -1) {
   const cuerpo = document.getElementById('ranking-cuerpo');
   cuerpo.replaceChildren();
   ranking.forEach((entrada, i) => {
@@ -298,7 +296,7 @@ function formatearFecha(iso) {
 }
 
 // Pinta las cuatro cajas de estadísticas. Sin datos muestra "—".
-export function pintarStats(stats) {
+function pintarStats(stats) {
   document.getElementById('stats-partidas').textContent = String(stats.partidas);
   document.getElementById('stats-aciertos').textContent =
     stats.respondidas === 0 ? '—' : `${Math.round((stats.aciertos / stats.respondidas) * 100)}%`;

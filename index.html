@@ -35,19 +35,6 @@
   <!-- Anuncio de cambios de pantalla para lectores (ui.js lo actualiza). -->
   <div class="sr-only" aria-live="polite" id="anuncio"></div>
 
-  <!-- Aviso solo visible con file:// (doble clic): los módulos ES no cargan
-       así y los botones quedan muertos. Este script es clásico (no módulo)
-       para que sí se ejecute en ese caso. La app requiere servidor local. -->
-  <p class="aviso-archivo" id="aviso-archivo" hidden>⚠️ Los botones no funcionan con doble clic: abre el juego con Live Server o con <code>npx serve</code> (ver README).</p>
-  <script>
-    if (window.location && window.location.protocol === 'file:') {
-      var avisoArchivo = document.getElementById('aviso-archivo');
-      if (avisoArchivo) {
-        avisoArchivo.hidden = false;
-      }
-    }
-  </script>
-
   <main>
     <!-- ================= 1. INICIO ================= -->
     <section class="pantalla" id="pantalla-inicio" aria-label="Inicio">
@@ -390,7 +377,13 @@
     <p>Trivia Colombia · UDES Desarrollo Full Stack</p>
   </footer>
 
-  <!-- Módulos ES: requieren servidor local (Live Server o npx serve), no abren con file://. -->
-  <script type="module" src="js/app.js"></script>
+  <!-- Scripts clásicos en orden de dependencia: datos, lógica,
+       persistencia, renderizado y punto de entrada. Sin módulos ES para
+       que el juego funcione con doble clic (file://) y con servidor local. -->
+  <script src="js/preguntas.js"></script>
+  <script src="js/juego.js"></script>
+  <script src="js/almacenamiento.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

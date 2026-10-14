@@ -1,15 +1,15 @@
 // Trivia Colombia · js/juego.js
 // Lógica del juego: preguntas, tiempo, puntaje y comodines.
-// REGLA DE ARQUITECTURA: este módulo NO toca el DOM. Solo importa datos
-// (preguntas.js) y expone estado + funciones puras. ui.js renderiza, app.js conecta.
-import { PREGUNTAS } from './preguntas.js';
+// REGLA DE ARQUITECTURA: este módulo NO toca el DOM. Usa PREGUNTAS
+// (de preguntas.js, cargado antes) y expone globales. ui.js renderiza,
+// app.js conecta.
 
 // Número de preguntas por partida y segundos por pregunta.
-export const TOTAL_PREGUNTAS = 10;
-export const SEGUNDOS_POR_PREGUNTA = 20;
+const TOTAL_PREGUNTAS = 10;
+const SEGUNDOS_POR_PREGUNTA = 20;
 
 // Estado de la partida (§6 de AGENTS.md). Se reinicia en iniciarPartida().
-export const estado = {
+const estado = {
   jugador: '',
   categoria: 'todas',
   dificultad: 'medio',
@@ -26,7 +26,7 @@ export const estado = {
 };
 
 // Mezcla Fisher-Yates. Devuelve una COPIA (no muta el arreglo original ni el banco).
-export function mezclar(arreglo) {
+function mezclar(arreglo) {
   const copia = [...arreglo];
   for (let i = copia.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -50,7 +50,7 @@ function conOpcionesMezcladas(pregunta) {
 // Si la combinación categoría + dificultad tiene menos de 10, completa con
 // otras dificultades de la misma categoría (y con otras categorías si es "Todas").
 // Nunca repite preguntas dentro de la misma partida.
-export function obtenerPreguntas(categoria, dificultad) {
+function obtenerPreguntas(categoria, dificultad) {
   const esTodas = categoria === 'todas';
   const base = esTodas ? PREGUNTAS : PREGUNTAS.filter((p) => p.categoria === categoria);
 
@@ -78,7 +78,7 @@ export function obtenerPreguntas(categoria, dificultad) {
 
 // Reinicia el estado, obtiene las preguntas y deja lista la primera.
 // Devuelve la primera pregunta para que ui.js la muestre (fase 11).
-export function iniciarPartida(categoria, dificultad) {
+function iniciarPartida(categoria, dificultad) {
   // El nombre del jugador lo fija app.js en estado.jugador antes de llamar.
   estado.categoria = categoria;
   estado.dificultad = dificultad;
@@ -99,13 +99,13 @@ export function iniciarPartida(categoria, dificultad) {
 // ---------- Puntaje (§5 de AGENTS.md) ----------
 
 // Multiplicador por dificultad.
-export const MULTIPLICADORES = { facil: 1, medio: 1.5, dificil: 2 };
+const MULTIPLICADORES = { facil: 1, medio: 1.5, dificil: 2 };
 
 // Función pura con la fórmula (fácil de probar).
 // Correcta: base 100 + rapidez (5 por segundo restante, máx. 100)
 // + racha 50 (si la racha tras esta respuesta es múltiplo de 3),
 // todo multiplicado por la dificultad. Incorrecta o tiempo agotado: 0.
-export function calcularPuntos(segundosRestantes, rachaNueva, dificultad) {
+function calcularPuntos(segundosRestantes, rachaNueva, dificultad) {
   const base = 100;
   const rapidez = Math.min(100, 5 * segundosRestantes);
   const racha = rachaNueva > 0 && rachaNueva % 3 === 0 ? 50 : 0;
@@ -120,7 +120,7 @@ let intervaloId = null;
 let marcaFin = 0; // momento (Date.now) en que se agota el tiempo
 let marcaInicio = 0; // momento en que empezó la pregunta (para tiempoTotal)
 
-export function iniciarTemporizador(alTick, alAgotar) {
+function iniciarTemporizador(alTick, alAgotar) {
   limpiarTemporizador();
   marcaInicio = Date.now();
   marcaFin = marcaInicio + estado.tiempoRestante * 1000;
@@ -138,7 +138,7 @@ export function iniciarTemporizador(alTick, alAgotar) {
 
 // Detiene el intervalo sin intervalos huérfanos. Se llama al responder,
 // al cambiar de pantalla y al terminar la partida.
-export function limpiarTemporizador() {
+function limpiarTemporizador() {
   if (intervaloId !== null) {
     clearInterval(intervaloId);
     intervaloId = null;
@@ -147,7 +147,7 @@ export function limpiarTemporizador() {
 
 // Suma segundos al tiempo restante (comodín +10s, fase 10).
 // Recalcula la marca de fin para que el intervalo siga exacto.
-export function agregarTiempo(segundos) {
+function agregarTiempo(segundos) {
   estado.tiempoRestante += segundos;
   marcaFin += segundos * 1000;
 }
@@ -157,7 +157,7 @@ export function agregarTiempo(segundos) {
 // Valida la respuesta, calcula puntos y actualiza la racha.
 // indiceOpcion null = tiempo agotado. Si ya se respondió (CP-07),
 // no hace nada y devuelve null. Siempre detiene el temporizador.
-export function responder(indiceOpcion) {
+function responder(indiceOpcion) {
   if (estado.respondida) {
     return null;
   }
@@ -184,7 +184,7 @@ export function responder(indiceOpcion) {
 
 // Avanza a la siguiente pregunta y la devuelve, o null si terminó la partida.
 // Reinicia tiempo y bloqueo para la nueva pregunta.
-export function siguientePregunta() {
+function siguientePregunta() {
   estado.indiceActual += 1;
   if (estado.indiceActual >= estado.preguntas.length) {
     return null;
@@ -198,12 +198,12 @@ export function siguientePregunta() {
 
 // Costo fijo de cada comodín: se resta del puntaje total en ese instante
 // (sin multiplicador) y el total nunca baja de 0.
-export const COSTO_COMODIN = 30;
+const COSTO_COMODIN = 30;
 
 // Aplica el comodín 'cincuenta' (elimina dos incorrectas al azar) o 'tiempo'
 // (suma 10 s). Descuenta 30 puntos. Devuelve null si no se puede usar
 // (ya usado o pregunta respondida). ui.js deshabilita el botón con este dato.
-export function usarComodin(tipo) {
+function usarComodin(tipo) {
   if (estado.respondida) {
     return null;
   }

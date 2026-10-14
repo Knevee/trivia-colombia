@@ -1,36 +1,8 @@
 // Trivia Colombia · js/app.js
 // Punto de entrada: conecta eventos con juego.js (lógica) y ui.js (DOM).
 // No contiene reglas de juego ni pinta directamente (salvo textos simples).
-import {
-  estado,
-  iniciarPartida,
-  iniciarTemporizador,
-  limpiarTemporizador,
-  responder,
-  siguientePregunta,
-  usarComodin
-} from './juego.js';
-import {
-  mostrarPantalla,
-  mostrarPregunta,
-  actualizarTiempo,
-  mostrarRetroalimentacion,
-  mostrarResultado,
-  pintarEliminadas,
-  pintarComodines,
-  pintarRanking,
-  pintarStats
-} from './ui.js';
-import {
-  guardarEnRanking,
-  actualizarEstadisticas,
-  obtenerRanking,
-  obtenerStats,
-  borrarRanking,
-  obtenerMejorPuntaje,
-  obtenerPrefs,
-  guardarPrefs
-} from './almacenamiento.js';
+// Script clásico (sin import/export): usa los globales de preguntas.js,
+// juego.js, almacenamiento.js y ui.js, cargados antes en index.html.
 
 // Preferencias persistidas (sonido, tema y nombre). El tema por defecto es oscuro.
 let prefs = obtenerPrefs();

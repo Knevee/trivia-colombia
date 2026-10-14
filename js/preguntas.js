@@ -3,7 +3,7 @@
 // 50 preguntas (10 por categoría: 4 fáciles, 4 medias, 2 difíciles).
 // Solo datos verificados con certeza; incluye las 6 preguntas de ejemplo del documento.
 
-export const PREGUNTAS = [
+const PREGUNTAS = [
   // ---------- GEOGRAFÍA (ids 1-10) ----------
   {
     id: 1,
@@ -461,7 +461,7 @@ export const PREGUNTAS = [
   }
 ];
 
-export const CATEGORIAS = {
+const CATEGORIAS = {
   geografia: 'Geografía',
   historia: 'Historia',
   cultura: 'Cultura',
