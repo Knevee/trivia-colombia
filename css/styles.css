@@ -836,6 +836,15 @@ input.is-error {
   padding-right: 0.25rem;
 }
 
+/* Fila de chips informativos del panel COMODINES (Instrucciones). */
+.grupo-comodines {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
 /* Mejor puntaje de la combinación elegida. */
 .mejor-puntaje {
   margin: 0;

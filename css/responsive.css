@@ -240,7 +240,7 @@
   #pantalla-inicio .ventana__contenido > h1,
   #pantalla-inicio .ventana__contenido > .parpadeo,
   #pantalla-instrucciones .ventana__contenido > h2,
-  #pantalla-instrucciones .ventana__contenido > .btn {
+  #pantalla-instrucciones .ventana__contenido > .panel--reglas {
     grid-column: 1 / -1;
   }
 
@@ -250,10 +250,26 @@
     grid-row: 2 / span 3;
   }
 
-  /* Instrucciones: el oso abarca las filas de los tres paneles. */
+  /* Instrucciones (como el diseño): lista completa; PUNTUACIÓN y COMODINES
+     lado a lado; VOLVER a la izquierda y el oso abajo a la derecha. */
+  #pantalla-instrucciones .ventana__contenido > .panel--puntuacion {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  #pantalla-instrucciones .ventana__contenido > .panel--comodines {
+    grid-column: 2;
+    grid-row: 3;
+  }
+
+  #pantalla-instrucciones .ventana__contenido > .btn {
+    grid-column: 1;
+    grid-row: 4;
+  }
+
   #pantalla-instrucciones .ventana__contenido > .mascota {
     grid-column: 2;
-    grid-row: 2 / span 3;
+    grid-row: 4;
   }
 
   #pantalla-inicio .ventana__contenido > .mascota .mascota__img,
