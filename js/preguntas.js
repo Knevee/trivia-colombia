@@ -185,6 +185,188 @@ export const PREGUNTAS = [
     opciones: ['1899', '1903', '1914', '1921'],
     correcta: 1,
     explicacion: 'Panamá se separó el 3 de noviembre de 1903.'
+  },
+  // ---------- CULTURA (ids 21-30) ----------
+  {
+    id: 21,
+    categoria: 'cultura',
+    dificultad: 'facil',
+    enunciado: '¿De qué región es originario el sombrero vueltiao?',
+    opciones: ['Córdoba', 'Nariño', 'Santander', 'Boyacá'],
+    correcta: 0,
+    explicacion: 'Es herencia del pueblo zenú, de Córdoba y Sucre.'
+  },
+  {
+    id: 22,
+    categoria: 'cultura',
+    dificultad: 'facil',
+    enunciado: '¿De qué región es típica la bandeja paisa?',
+    opciones: ['Antioquia', 'Tolima', 'Huila', 'Cundinamarca'],
+    correcta: 0,
+    explicacion: 'La bandeja paisa es el plato típico de Antioquia.'
+  },
+  {
+    id: 23,
+    categoria: 'cultura',
+    dificultad: 'facil',
+    enunciado: '¿Cuál es uno de los ritmos más representativos de Colombia?',
+    opciones: ['El tango', 'La cumbia', 'El merengue', 'La bachata'],
+    correcta: 1,
+    explicacion: 'La cumbia, de origen caribeño, es símbolo musical del país.'
+  },
+  {
+    id: 24,
+    categoria: 'cultura',
+    dificultad: 'facil',
+    enunciado: '¿Quién escribió Cien años de soledad?',
+    opciones: ['Gabriel García Márquez', 'Álvaro Mutis', 'Jorge Isaacs', 'Rafael Pombo'],
+    correcta: 0,
+    explicacion: 'García Márquez, Nobel de Literatura, escribió esta obra en 1967.'
+  },
+  {
+    id: 25,
+    categoria: 'cultura',
+    dificultad: 'medio',
+    enunciado: '¿En qué ciudad se celebra el carnaval declarado Patrimonio de la Humanidad por la UNESCO?',
+    opciones: ['Cartagena', 'Santa Marta', 'Barranquilla', 'Valledupar'],
+    correcta: 2,
+    explicacion: 'El Carnaval de Barranquilla es Patrimonio Oral e Inmaterial de la Humanidad.'
+  },
+  {
+    id: 26,
+    categoria: 'cultura',
+    dificultad: 'medio',
+    enunciado: '¿En qué ciudad se celebra la Feria de las Flores?',
+    opciones: ['Cali', 'Medellín', 'Manizales', 'Pereira'],
+    correcta: 1,
+    explicacion: 'La Feria de las Flores, con su Desfile de Silleteros, es de Medellín.'
+  },
+  {
+    id: 27,
+    categoria: 'cultura',
+    dificultad: 'medio',
+    enunciado: '¿De qué ciudad es típico el ajiaco?',
+    opciones: ['Bogotá', 'Cali', 'Medellín', 'Bucaramanga'],
+    correcta: 0,
+    explicacion: 'El ajiaco, sopa de papa con pollo y guascas, es típico de Bogotá.'
+  },
+  {
+    id: 28,
+    categoria: 'cultura',
+    dificultad: 'medio',
+    enunciado: '¿En qué ciudad se celebra el Carnaval de Negros y Blancos?',
+    opciones: ['Pasto', 'Popayán', 'Tunja', 'Neiva'],
+    correcta: 0,
+    explicacion: 'El Carnaval de Negros y Blancos se celebra en Pasto cada mes de enero.'
+  },
+  {
+    id: 29,
+    categoria: 'cultura',
+    dificultad: 'dificil',
+    enunciado: '¿En qué ciudad se celebra el Festival de la Leyenda Vallenata?',
+    opciones: ['Valledupar', 'Riohacha', 'Sincelejo', 'Montería'],
+    correcta: 0,
+    explicacion: 'Valledupar, capital del Cesar, es la cuna del vallenato.'
+  },
+  {
+    id: 30,
+    categoria: 'cultura',
+    dificultad: 'dificil',
+    enunciado: '¿De qué ciudad es originaria la champeta?',
+    opciones: ['Barranquilla', 'Cartagena', 'Santa Marta', 'Quibdó'],
+    correcta: 1,
+    explicacion: 'La champeta nació en los barrios populares de Cartagena.'
+  },
+  // ---------- DEPORTES (ids 31-40) ----------
+  {
+    id: 31,
+    categoria: 'deportes',
+    dificultad: 'facil',
+    enunciado: '¿Cuál es el deporte nacional de Colombia?',
+    opciones: ['El fútbol', 'El tejo', 'El ciclismo', 'El boxeo'],
+    correcta: 1,
+    explicacion: 'El tejo (turmequé) fue declarado deporte nacional por ley.'
+  },
+  {
+    id: 32,
+    categoria: 'deportes',
+    dificultad: 'facil',
+    enunciado: '¿En qué Mundial ganó James Rodríguez la Bota de Oro?',
+    opciones: ['Sudáfrica 2010', 'Brasil 2014', 'Rusia 2018', 'Catar 2022'],
+    correcta: 1,
+    explicacion: 'James fue el goleador del Mundial de Brasil 2014 con 6 goles.'
+  },
+  {
+    id: 33,
+    categoria: 'deportes',
+    dificultad: 'facil',
+    enunciado: '¿Cómo se llama el estadio de Barranquilla donde juega la Selección Colombia?',
+    opciones: ['El Campín', 'Atanasio Girardot', 'Metropolitano', 'Pascual Guerrero'],
+    correcta: 2,
+    explicacion: 'El Metropolitano Roberto Meléndez es la casa de la Selección.'
+  },
+  {
+    id: 34,
+    categoria: 'deportes',
+    dificultad: 'facil',
+    enunciado: '¿En qué deporte brilla Mariana Pajón?',
+    opciones: ['BMX', 'Patinaje', 'Ciclismo de ruta', 'Atletismo'],
+    correcta: 0,
+    explicacion: 'La reina del BMX ganó el oro olímpico en Londres 2012 y Río 2016.'
+  },
+  {
+    id: 35,
+    categoria: 'deportes',
+    dificultad: 'medio',
+    enunciado: '¿Qué ciclista colombiano ganó el Tour de Francia en 2019?',
+    opciones: ['Nairo Quintana', 'Egan Bernal', 'Rigoberto Urán', 'Miguel Ángel López'],
+    correcta: 1,
+    explicacion: 'Egan Bernal fue el primer colombiano en ganar el Tour de Francia.'
+  },
+  {
+    id: 36,
+    categoria: 'deportes',
+    dificultad: 'medio',
+    enunciado: '¿Qué gran vuelta ganó Nairo Quintana en 2014?',
+    opciones: ['El Tour de Francia', 'El Giro de Italia', 'La Vuelta a España', 'La París-Niza'],
+    correcta: 1,
+    explicacion: 'Nairo ganó el Giro de Italia 2014.'
+  },
+  {
+    id: 37,
+    categoria: 'deportes',
+    dificultad: 'medio',
+    enunciado: '¿Quién es el máximo goleador histórico de la Selección Colombia?',
+    opciones: ['James Rodríguez', 'Faustino Asprilla', 'Radamel Falcao García', 'Carlos Bacca'],
+    correcta: 2,
+    explicacion: 'El Tigre Falcao es el máximo artillero de la Selección.'
+  },
+  {
+    id: 38,
+    categoria: 'deportes',
+    dificultad: 'medio',
+    enunciado: '¿En qué prueba ganó el oro Caterine Ibargüen en Río 2016?',
+    opciones: ['Salto triple', 'Salto largo', '400 metros', 'Jabalina'],
+    correcta: 0,
+    explicacion: 'Caterine ganó el oro olímpico en salto triple en Río 2016.'
+  },
+  {
+    id: 39,
+    categoria: 'deportes',
+    dificultad: 'dificil',
+    enunciado: '¿En qué Mundial debutó la Selección Colombia?',
+    opciones: ['Chile 1962', 'México 1970', 'Italia 1990', 'EE. UU. 1994'],
+    correcta: 0,
+    explicacion: 'Colombia debutó en los mundiales en Chile 1962.'
+  },
+  {
+    id: 40,
+    categoria: 'deportes',
+    dificultad: 'dificil',
+    enunciado: '¿Qué equipo colombiano ganó la Copa Libertadores en 2004?',
+    opciones: ['Atlético Nacional', 'Once Caldas', 'América de Cali', 'Millonarios'],
+    correcta: 1,
+    explicacion: 'El Once Caldas de Manizales ganó la Libertadores 2004.'
   }
 ];
 
