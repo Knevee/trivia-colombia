@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!-- Trivia Colombia: esqueleto semántico de la fase 1. El contenido de cada pantalla se maqueta en las fases 4 y 5. -->
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Trivia Colombia: juego web de preguntas sobre Colombia.">
+  <title>Trivia Colombia</title>
+  <!-- Favicon inline (SVG con data URI) para evitar 404: no existe assets/img/favicon.png aún. -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='6' fill='%23FCD116'/%3E%3Crect y='6' width='16' height='5' fill='%23003893'/%3E%3Crect y='11' width='16' height='5' fill='%23CE1126'/%3E%3C/svg%3E">
+  <!-- Google Fonts con respaldo (fallbacks definidos en CSS en la fase 2). -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <header>
+    <h1>Trivia Colombia</h1>
+  </header>
+
+  <main>
+    <!-- Cada pantalla es una sección; solo la activa se muestra (navegación en ui.js, fase 11). -->
+    <section id="pantalla-inicio" aria-label="Inicio"></section>
+    <section id="pantalla-instrucciones" aria-label="Instrucciones" hidden></section>
+    <section id="pantalla-config" aria-label="Configuración de partida" hidden></section>
+    <section id="pantalla-juego" aria-label="Juego" hidden></section>
+    <section id="pantalla-resultado" aria-label="Resultado" hidden></section>
+    <section id="pantalla-ranking" aria-label="Ranking y estadísticas" hidden></section>
+  </main>
+
+  <footer>
+    <p>Trivia Colombia · UDES Desarrollo Full Stack</p>
+  </footer>
+
+  <!-- Módulos ES: requieren servidor local (Live Server o npx serve), no abren con file://. -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

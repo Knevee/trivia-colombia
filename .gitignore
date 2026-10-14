@@ -1,0 +1,7 @@
+# Trivial: ignorar archivos del sistema, editores y dependencias.
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
+dist/
