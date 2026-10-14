@@ -78,7 +78,6 @@ export function obtenerPreguntas(categoria, dificultad) {
 
 // Reinicia el estado, obtiene las preguntas y deja lista la primera.
 // Devuelve la primera pregunta para que ui.js la muestre (fase 11).
-// El temporizador, la respuesta y el puntaje llegan en las fases 9 y 10.
 export function iniciarPartida(categoria, dificultad) {
   // El nombre del jugador lo fija app.js en estado.jugador antes de llamar.
   estado.categoria = categoria;
@@ -93,5 +92,104 @@ export function iniciarPartida(categoria, dificultad) {
   estado.comodines = { cincuenta: true, tiempo: true };
   estado.respondida = false;
   estado.fallos = [];
+  marcaInicio = Date.now(); // respaldo por si se responde sin temporizador
   return estado.preguntas[0];
+}
+
+// ---------- Puntaje (§5 de AGENTS.md) ----------
+
+// Multiplicador por dificultad.
+export const MULTIPLICADORES = { facil: 1, medio: 1.5, dificil: 2 };
+
+// Función pura con la fórmula (fácil de probar).
+// Correcta: base 100 + rapidez (5 por segundo restante, máx. 100)
+// + racha 50 (si la racha tras esta respuesta es múltiplo de 3),
+// todo multiplicado por la dificultad. Incorrecta o tiempo agotado: 0.
+export function calcularPuntos(segundosRestantes, rachaNueva, dificultad) {
+  const base = 100;
+  const rapidez = Math.min(100, 5 * segundosRestantes);
+  const racha = rachaNueva > 0 && rachaNueva % 3 === 0 ? 50 : 0;
+  return Math.round((base + rapidez + racha) * MULTIPLICADORES[dificultad]);
+}
+
+// ---------- Temporizador ----------
+// Usa setInterval de 1 s pero calcula con Date.now() para no desfasarse
+// si la pestaña queda en segundo plano. Avisa por callbacks (sin DOM):
+// alTick(segundosRestantes) cada segundo, alAgotar() al llegar a 0.
+let intervaloId = null;
+let marcaFin = 0; // momento (Date.now) en que se agota el tiempo
+let marcaInicio = 0; // momento en que empezó la pregunta (para tiempoTotal)
+
+export function iniciarTemporizador(alTick, alAgotar) {
+  limpiarTemporizador();
+  marcaInicio = Date.now();
+  marcaFin = marcaInicio + estado.tiempoRestante * 1000;
+  intervaloId = setInterval(() => {
+    const restante = Math.max(0, Math.round((marcaFin - Date.now()) / 1000));
+    estado.tiempoRestante = restante;
+    if (restante <= 0) {
+      limpiarTemporizador();
+      alAgotar();
+    } else {
+      alTick(restante);
+    }
+  }, 1000);
+}
+
+// Detiene el intervalo sin intervalos huérfanos. Se llama al responder,
+// al cambiar de pantalla y al terminar la partida.
+export function limpiarTemporizador() {
+  if (intervaloId !== null) {
+    clearInterval(intervaloId);
+    intervaloId = null;
+  }
+}
+
+// Suma segundos al tiempo restante (comodín +10s, fase 10).
+// Recalcula la marca de fin para que el intervalo siga exacto.
+export function agregarTiempo(segundos) {
+  estado.tiempoRestante += segundos;
+  marcaFin += segundos * 1000;
+}
+
+// ---------- Respuesta ----------
+
+// Valida la respuesta, calcula puntos y actualiza la racha.
+// indiceOpcion null = tiempo agotado. Si ya se respondió (CP-07),
+// no hace nada y devuelve null. Siempre detiene el temporizador.
+export function responder(indiceOpcion) {
+  if (estado.respondida) {
+    return null;
+  }
+  limpiarTemporizador();
+  estado.respondida = true;
+  // Segundos empleados en esta pregunta (tiempo real, con o sin +10s).
+  estado.tiempoTotal += Math.max(0, Math.round((Date.now() - marcaInicio) / 1000));
+
+  const pregunta = estado.preguntas[estado.indiceActual];
+  const acierto = indiceOpcion !== null && indiceOpcion === pregunta.correcta;
+
+  if (!acierto) {
+    estado.racha = 0;
+    estado.fallos.push({ pregunta, elegida: indiceOpcion, correcta: pregunta.correcta });
+    return { acierto: false, puntos: 0, racha: 0 };
+  }
+
+  estado.aciertos += 1;
+  estado.racha += 1;
+  const puntos = calcularPuntos(estado.tiempoRestante, estado.racha, estado.dificultad);
+  estado.puntaje += puntos;
+  return { acierto: true, puntos, racha: estado.racha };
+}
+
+// Avanza a la siguiente pregunta y la devuelve, o null si terminó la partida.
+// Reinicia tiempo y bloqueo para la nueva pregunta.
+export function siguientePregunta() {
+  estado.indiceActual += 1;
+  if (estado.indiceActual >= estado.preguntas.length) {
+    return null;
+  }
+  estado.tiempoRestante = SEGUNDOS_POR_PREGUNTA;
+  estado.respondida = false;
+  return estado.preguntas[estado.indiceActual];
 }
