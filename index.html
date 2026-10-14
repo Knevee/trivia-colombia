@@ -285,6 +285,8 @@
           </div>
 
           <div id="tab-ranking" role="tabpanel" aria-labelledby="tab-btn-ranking" tabindex="0">
+            <!-- La tabla tiene scroll interno en escritorio; la página no. -->
+            <div class="tabla-scroll">
             <table class="tabla">
               <caption class="sr-only">Top 10 de puntajes</caption>
               <thead>
@@ -299,6 +301,7 @@
               <!-- ui.js genera las filas; resalta la recién jugada con .is-actual. -->
               <tbody id="ranking-cuerpo"></tbody>
             </table>
+            </div>
             <p id="ranking-vacio">Aún no hay partidas. ¡Sé el primero!</p>
           </div>
 

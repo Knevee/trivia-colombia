@@ -718,6 +718,11 @@ input.is-error {
 /* Cada pantalla es una sección; sirve de referencia para el engranaje. */
 .pantalla {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  min-height: calc(100dvh - 12px); /* descuenta las franjas tricolor de 6 px */
 }
 
 /* Engranaje de ajustes: 48x48 px arriba a la derecha (solo visible en Inicio). */
