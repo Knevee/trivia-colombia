@@ -27,8 +27,80 @@ import {
   obtenerRanking,
   obtenerStats,
   borrarRanking,
-  obtenerMejorPuntaje
+  obtenerMejorPuntaje,
+  obtenerPrefs,
+  guardarPrefs
 } from './almacenamiento.js';
+
+// Preferencias persistidas (sonido, tema y nombre). El tema por defecto es oscuro.
+let prefs = obtenerPrefs();
+
+// ---------- Sonidos (Web Audio API, sin archivos MP3) ----------
+// Los MP3 no existen (§2 de AGENTS.md): acierto = beep agudo corto,
+// error = beep grave. El contexto se crea en la primera interacción
+// del usuario (política de autoplay) y respeta el interruptor de sonido.
+let contextoAudio = null;
+
+function asegurarAudio() {
+  if (!prefs.sonido || typeof window === 'undefined') {
+    return null;
+  }
+  try {
+    if (!contextoAudio) {
+      const Constructor = window.AudioContext || window.webkitAudioContext;
+      contextoAudio = new Constructor();
+    }
+    if (contextoAudio.state === 'suspended') {
+      contextoAudio.resume();
+    }
+    return contextoAudio;
+  } catch {
+    return null;
+  }
+}
+
+function beep(frecuencia, duracion) {
+  const ctx = asegurarAudio();
+  if (!ctx) {
+    return;
+  }
+  const oscilador = ctx.createOscillator();
+  const ganancia = ctx.createGain();
+  oscilador.type = 'square';
+  oscilador.frequency.value = frecuencia;
+  ganancia.gain.setValueAtTime(0.15, ctx.currentTime);
+  ganancia.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duracion);
+  oscilador.connect(ganancia);
+  ganancia.connect(ctx.destination);
+  oscilador.start();
+  oscilador.stop(ctx.currentTime + duracion);
+}
+
+function sonarAcierto() {
+  beep(880, 0.15);
+}
+
+function sonarError() {
+  beep(160, 0.3);
+}
+
+// Aplica el tema al instante (también se aplica antes de pintar en el <head>).
+function aplicarTema() {
+  document.documentElement.dataset.theme = prefs.tema;
+  pintarTema();
+}
+
+function pintarTema() {
+  const esClaro = prefs.tema === 'claro';
+  const oscuro = document.getElementById('tema-oscuro');
+  const claro = document.getElementById('tema-claro');
+  oscuro.classList.toggle('is-seleccionado', !esClaro);
+  oscuro.classList.toggle('btn--crema', esClaro);
+  oscuro.setAttribute('aria-pressed', String(!esClaro));
+  claro.classList.toggle('is-seleccionado', esClaro);
+  claro.classList.toggle('btn--crema', !esClaro);
+  claro.setAttribute('aria-pressed', String(esClaro));
+}
 
 // Selección actual de Configuración (en el HTML: Todas + Medio por defecto).
 let categoriaElegida = 'todas';
@@ -66,6 +138,11 @@ function alResponder(indice) {
     return;
   }
   mostrarRetroalimentacion(resultado);
+  if (resultado.acierto) {
+    sonarAcierto();
+  } else {
+    sonarError();
+  }
 }
 
 // Avanza o termina la partida al pulsar SIGUIENTE / VER RESULTADO.
@@ -182,6 +259,8 @@ function iniciar() {
       return;
     }
     estado.jugador = nombre;
+    prefs.nombre = nombre; // se precarga al volver (CP-11)
+    guardarPrefs(prefs);
     actualizarMejorPuntaje();
     irAPantalla('pantalla-config');
   });
@@ -196,10 +275,32 @@ function iniciar() {
   });
   document.getElementById('btn-volver-inicio').addEventListener('click', () => irAPantalla('pantalla-inicio'));
 
-  // --- Ajustes (la lógica de sonido/tema llega en la fase 13) ---
+  // --- Ajustes: sonido y tema se aplican al instante y se guardan ---
   const ajustes = document.getElementById('modal-ajustes');
-  document.getElementById('btn-ajustes').addEventListener('click', () => ajustes.showModal());
+  document.getElementById('btn-ajustes').addEventListener('click', () => {
+    document.getElementById('switch-sonido').setAttribute('aria-checked', String(prefs.sonido));
+    pintarTema();
+    ajustes.showModal();
+  });
   document.getElementById('btn-cerrar-ajustes').addEventListener('click', () => ajustes.close());
+  document.getElementById('switch-sonido').addEventListener('click', (evento) => {
+    prefs.sonido = !prefs.sonido;
+    guardarPrefs(prefs);
+    evento.target.setAttribute('aria-checked', String(prefs.sonido));
+    if (prefs.sonido) {
+      sonarAcierto(); // confirmación audible al activar
+    }
+  });
+  document.getElementById('tema-oscuro').addEventListener('click', () => {
+    prefs.tema = 'oscuro';
+    guardarPrefs(prefs);
+    aplicarTema();
+  });
+  document.getElementById('tema-claro').addEventListener('click', () => {
+    prefs.tema = 'claro';
+    guardarPrefs(prefs);
+    aplicarTema();
+  });
 
   // --- Configuración ---
   document.querySelectorAll('.tarjeta').forEach((tarjeta) => {
@@ -319,7 +420,9 @@ function iniciar() {
   });
   document.getElementById('btn-ranking-volver').addEventListener('click', () => irAPantalla('pantalla-inicio'));
 
-  // Estado inicial: Inicio visible con el engranaje.
+  // Estado inicial: tema guardado, nombre precargado e Inicio visible.
+  aplicarTema();
+  document.getElementById('nombre-jugador').value = prefs.nombre;
   document.getElementById('btn-ajustes').hidden = false;
 }
 

@@ -5,6 +5,15 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <!-- El tema se aplica antes de pintar para evitar parpadeo (se guarda en trivia_prefs). -->
+  <script>
+    try {
+      var prefsIniciales = JSON.parse(localStorage.getItem('trivia_prefs'));
+      if (prefsIniciales && prefsIniciales.tema === 'claro') {
+        document.documentElement.dataset.theme = 'claro';
+      }
+    } catch (e) {}
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Trivia Colombia: juego web de preguntas sobre Colombia.">
   <title>Trivia Colombia</title>
