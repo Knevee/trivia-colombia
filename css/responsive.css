@@ -195,25 +195,60 @@
   }
 }
 
-/* ---------- Mascota a un costado (pantallas muy anchas) ---------- */
-/* Solo las mascotas hijas directas del contenido (Inicio, Instrucciones,
-   Resultado): la del feedback se queda en su sitio. Solo a partir de 1600 px,
-   donde sobran (1600 - 820) / 2 = 390 px por lado: caben los 180 px sin
-   recorte. Por debajo, la mascota queda en el flujo, siempre visible. */
+/* ---------- Mascotas al costado en Inicio e Instrucciones ---------- */
+/* Como en el diseño: el oso va a la derecha del contenido (no arriba/abajo).
+   Grid de 2 columnas solo en escritorio; en móvil sigue apilado. */
+@media (min-width: 1024px) {
+  #pantalla-inicio .ventana__contenido,
+  #pantalla-instrucciones .ventana__contenido {
+    grid-template-columns: minmax(0, 1fr) 170px;
+    align-items: center;
+  }
+
+  #pantalla-inicio .ventana__contenido > h1,
+  #pantalla-inicio .ventana__contenido > .parpadeo,
+  #pantalla-instrucciones .ventana__contenido > h2,
+  #pantalla-instrucciones .ventana__contenido > .btn {
+    grid-column: 1 / -1;
+  }
+
+  /* Inicio: el oso abarca las filas de lema, nombre y botones. */
+  #pantalla-inicio .ventana__contenido > .mascota {
+    grid-column: 2;
+    grid-row: 2 / span 3;
+  }
+
+  /* Instrucciones: el oso abarca las filas de los tres paneles. */
+  #pantalla-instrucciones .ventana__contenido > .mascota {
+    grid-column: 2;
+    grid-row: 2 / span 3;
+  }
+
+  #pantalla-inicio .ventana__contenido > .mascota .mascota__img,
+  #pantalla-instrucciones .ventana__contenido > .mascota .mascota__img {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+/* ---------- Mascota a un costado en Resultado (pantallas muy anchas) ---------- */
+/* Solo la mascota de Resultado (Inicio e Instrucciones usan la cuadrícula
+   anterior): solo a partir de 1600 px, donde sobran (1600 - 820) / 2 = 390 px
+   por lado: caben los 180 px sin recorte. */
 @media (min-width: 1600px) {
-  .ventana__contenido > .mascota {
+  #pantalla-resultado .ventana__contenido > .mascota {
     position: absolute;
     top: 2.5rem;
     left: calc(100% + 1.5rem);
     margin: 0;
   }
 
-  .ventana__contenido > .mascota .mascota__img {
+  #pantalla-resultado .ventana__contenido > .mascota .mascota__img {
     width: 180px;
     height: 180px;
   }
 
-  .ventana__contenido {
+  #pantalla-resultado .ventana__contenido {
     position: relative;
   }
 }
