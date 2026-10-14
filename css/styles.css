@@ -252,3 +252,460 @@ footer {
     scroll-behavior: auto !important;
   }
 }
+
+/* ============================================================
+   Fase 3: componentes (todos los estados del §3).
+   Solo apariencia: la maquetación de cada pantalla llega en las fases 4 y 5.
+   ============================================================ */
+
+/* ---------- 8. Botones (§3 + §7.1 del documento) ---------- */
+.btn {
+  display: block;
+  width: 100%;
+  min-height: 48px; /* el documento pide 44; usamos 48 */
+  padding: 0.75rem 1rem;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--azul-borde);
+  background: var(--amarillo);
+  border: 4px solid var(--azul-borde);
+  border-radius: 4px; /* esquinas casi cuadradas */
+  box-shadow: 0 6px 0 var(--rojo); /* sombra dura, sin desenfoque */
+  cursor: pointer;
+  transition: transform 0.08s steps(2), box-shadow 0.08s steps(2), background-color 0.08s steps(2);
+}
+
+.btn:hover,
+.btn:focus-visible {
+  transform: translateY(-2px);
+  background: var(--amarillo-claro);
+}
+
+.btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 var(--rojo);
+}
+
+.btn:disabled {
+  background: #9AA3B8;
+  color: #4A5470;
+  border-color: var(--azul-borde);
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Variante secundaria: fondo azul, texto blanco. */
+.btn--secundario {
+  background: var(--azul);
+  color: var(--blanco);
+  box-shadow: 0 6px 0 var(--azul-borde);
+}
+
+.btn--secundario:hover,
+.btn--secundario:focus-visible {
+  background: #0E4CBE;
+}
+
+.btn--secundario:active {
+  box-shadow: 0 2px 0 var(--azul-borde);
+}
+
+/* Variante crema (p. ej. dificultades no seleccionadas). */
+.btn--crema {
+  background: var(--crema);
+  color: var(--texto);
+  box-shadow: 0 6px 0 var(--azul-borde);
+}
+
+.btn--crema:active {
+  box-shadow: 0 2px 0 var(--azul-borde);
+}
+
+/* Variante de peligro: BORRAR RANKING. */
+.btn--peligro {
+  background: var(--rojo);
+  color: var(--blanco);
+  box-shadow: 0 6px 0 var(--azul-borde);
+}
+
+.btn--peligro:active {
+  box-shadow: 0 2px 0 var(--azul-borde);
+}
+
+/* Tamaño pequeño: comodines y botones compactos (mínimo táctil 44 px). */
+.btn--pequeno {
+  min-height: 44px;
+  padding: 0.5rem 0.5rem;
+  font-size: 0.6rem;
+  border-width: 3px;
+}
+
+/* Botón seleccionado (dificultad, tema): amarillo brillante + borde grueso. */
+.btn.is-seleccionado {
+  background: var(--amarillo);
+  border-color: var(--amarillo);
+  outline: 4px solid var(--azul-borde);
+}
+
+/* ---------- 9. Opciones de respuesta ---------- */
+.opcion {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 48px;
+  padding: 0.6rem 0.75rem;
+  font-family: "Poppins", "Segoe UI", Arial, sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: left;
+  color: var(--texto);
+  background: var(--crema);
+  border: 4px solid var(--azul-borde);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Círculo azul con la letra A/B/C/D (se pone en el HTML). */
+.opcion__letra {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: 0.7rem;
+  color: var(--blanco);
+  background: var(--azul);
+  border: 3px solid var(--azul-borde);
+  border-radius: 4px;
+}
+
+/* Hover solo si la opción no está bloqueada. */
+.opcion:not(:disabled):not(.bloqueada):hover {
+  border-color: var(--amarillo);
+}
+
+/* Correcta: verde + ✓ a la derecha (nunca solo el color). */
+.opcion.is-correcta {
+  background: var(--verde);
+  color: var(--blanco);
+}
+
+.opcion.is-correcta::after {
+  content: "✓";
+  margin-left: auto;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+/* Incorrecta: rojo + ✗ a la derecha. */
+.opcion.is-incorrecta {
+  background: var(--rojo);
+  color: var(--blanco);
+}
+
+.opcion.is-incorrecta::after {
+  content: "✗";
+  margin-left: auto;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+/* Bloqueada tras responder: sin eventos ni hover. */
+.opcion.bloqueada,
+.opcion:disabled {
+  cursor: default;
+}
+
+.opcion.bloqueada {
+  pointer-events: none;
+}
+
+/* Eliminada por el 50/50: conserva el espacio. */
+.opcion.is-eliminada {
+  visibility: hidden;
+}
+
+/* ---------- 10. Paneles ---------- */
+.panel {
+  background: var(--crema);
+  color: var(--texto);
+  border: 4px solid var(--azul-borde);
+  border-radius: 4px;
+  box-shadow: 0 6px 0 var(--azul-borde);
+  padding: 1rem;
+}
+
+.panel h2,
+.panel .titulo-pixel {
+  color: var(--azul-borde);
+  text-shadow: none; /* sobre crema no lleva sombra roja */
+}
+
+/* Retroalimentación de acierto (5A): panel verde claro. */
+.panel--exito {
+  background: #D9F2E3;
+  color: var(--texto);
+}
+
+.panel--exito strong {
+  color: var(--verde);
+}
+
+/* ---------- 11. Ventana (marco de cada pantalla) ---------- */
+.ventana {
+  background: var(--azul);
+  border: 4px solid var(--azul-borde);
+  border-radius: 4px;
+  box-shadow: 0 6px 0 var(--azul-borde);
+  overflow: hidden;
+}
+
+/* Barra superior con tres puntos. */
+.ventana__barra {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--azul-borde);
+}
+
+.ventana__punto {
+  width: 10px;
+  height: 10px;
+  background: var(--crema);
+}
+
+.ventana__punto:nth-child(1) {
+  background: var(--amarillo);
+}
+
+.ventana__punto:nth-child(3) {
+  background: var(--rojo);
+}
+
+.ventana__contenido {
+  padding: 1rem;
+  display: grid;
+  gap: 1rem;
+}
+
+/* ---------- 12. Barras de progreso y de tiempo ---------- */
+.barra {
+  height: 16px;
+  background: var(--azul-borde);
+  border: 3px solid var(--azul-borde);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.barra__relleno {
+  height: 100%;
+  width: 0;
+  background: var(--amarillo);
+}
+
+/* Barra de tiempo: se vacía; en rojo cuando quedan menos de 6 s o en 0. */
+.barra--tiempo .barra__relleno {
+  background: var(--verde);
+}
+
+.barra--tiempo.is-baja .barra__relleno {
+  background: var(--rojo);
+}
+
+/* ---------- 13. Chips del encabezado del juego ---------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.4rem 0.6rem;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: 0.6rem;
+  color: var(--azul-borde);
+  background: var(--amarillo);
+  border: 3px solid var(--azul-borde);
+  border-radius: 4px;
+}
+
+/* Temporizador en rojo cuando baja de 6 s. */
+.chip--tiempo.is-bajo {
+  background: var(--rojo);
+  color: var(--blanco);
+}
+
+/* ---------- 14. Tarjetas de categoría ---------- */
+.tarjeta {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0.75rem 0.5rem;
+  font-family: "Poppins", "Segoe UI", Arial, sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--texto);
+  background: var(--crema);
+  border: 4px solid var(--azul-borde);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tarjeta img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+/* Respaldo con emoji si la imagen no está disponible (se define en ui.js, fase 11). */
+.tarjeta__icono-respaldo {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+/* Seleccionada: borde amarillo grueso + ✓ en la esquina superior derecha. */
+.tarjeta.is-seleccionada {
+  border-color: var(--amarillo);
+  box-shadow: 0 0 0 2px var(--azul-borde), 0 6px 0 var(--azul-borde);
+}
+
+.tarjeta.is-seleccionada::after {
+  content: "✓";
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  font-size: 1rem;
+  color: var(--azul-borde);
+  background: var(--amarillo);
+  border: 3px solid var(--azul-borde);
+  border-radius: 4px;
+}
+
+/* ---------- 15. Interruptor del modal de ajustes ---------- */
+.switch {
+  position: relative;
+  width: 68px;
+  height: 36px;
+  flex: 0 0 auto;
+  background: #9AA3B8;
+  border: 4px solid var(--azul-borde);
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 20px;
+  background: var(--blanco);
+  border: 3px solid var(--azul-borde);
+  border-radius: 2px;
+}
+
+/* Activado = verde, perilla a la derecha. */
+.switch[aria-checked="true"] {
+  background: var(--verde);
+}
+
+.switch[aria-checked="true"]::after {
+  left: auto;
+  right: 2px;
+}
+
+/* ---------- 16. Tabla del ranking ---------- */
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  color: var(--texto);
+  background: var(--crema);
+  border: 4px solid var(--azul-borde);
+}
+
+.tabla th,
+.tabla td {
+  padding: 0.5rem;
+  border: 2px solid var(--azul-borde);
+  text-align: left;
+}
+
+.tabla th {
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: 0.55rem;
+  color: var(--blanco);
+  background: var(--azul);
+}
+
+/* Fila de la partida recién jugada. */
+.tabla tr.is-actual {
+  background: var(--amarillo);
+}
+
+/* ---------- 17. Modal (dialog nativo) ---------- */
+dialog {
+  background: var(--azul);
+  color: var(--blanco);
+  border: 4px solid var(--azul-borde);
+  border-radius: 4px;
+  box-shadow: 0 6px 0 var(--rojo);
+  padding: 0;
+  max-width: min(92vw, 480px);
+}
+
+dialog::backdrop {
+  background: rgba(6, 15, 56, 0.7);
+}
+
+/* ---------- 18. Textos y etiquetas especiales ---------- */
+/* Error de validación (CP-01: nombre vacío). */
+.mensaje-error {
+  color: var(--rojo);
+  font-weight: 700;
+}
+
+/* Borde rojo en el input con error. */
+input.is-error {
+  border-color: var(--rojo);
+}
+
+/* Etiqueta de récord en Resultado (solo si es posición #1). */
+.etiqueta-record {
+  display: inline-block;
+  padding: 0.4rem 0.6rem;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: 0.65rem;
+  color: var(--rojo);
+  background: var(--crema);
+  border: 3px solid var(--rojo);
+  border-radius: 4px;
+}
+
+/* Texto parpadeante PRESS START (animación con steps). */
+.parpadeo {
+  animation: parpadeo 1.2s steps(2) infinite;
+  text-align: center;
+}
+
+@keyframes parpadeo {
+  50% {
+    opacity: 0;
+  }
+}
+
