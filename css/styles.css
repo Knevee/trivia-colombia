@@ -839,10 +839,16 @@ input.is-error {
 /* Fila de chips informativos del panel COMODINES (Instrucciones). */
 .grupo-comodines {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
   gap: 0.5rem;
-  justify-content: center;
   margin-bottom: 0.5rem;
+}
+
+/* Texto compacto del panel PUNTUACIÓN (mínimo legible 14 px). */
+.panel--puntuacion {
+  font-size: 0.875rem;
+  line-height: 1.6;
 }
 
 /* Mejor puntaje de la combinación elegida. */

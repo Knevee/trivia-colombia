@@ -231,9 +231,14 @@
 /* Como en el diseño: el oso va a la derecha del contenido (no arriba/abajo).
    Grid de 2 columnas solo en escritorio; en móvil sigue apilado. */
 @media (min-width: 1024px) {
-  #pantalla-inicio .ventana__contenido,
-  #pantalla-instrucciones .ventana__contenido {
+  #pantalla-inicio .ventana__contenido {
     grid-template-columns: minmax(0, 1fr) 170px;
+    align-items: center;
+  }
+
+  /* Instrucciones: columna lateral más ancha para el oso grande del diseño. */
+  #pantalla-instrucciones .ventana__contenido {
+    grid-template-columns: minmax(0, 1fr) 210px;
     align-items: center;
   }
 
@@ -272,10 +277,15 @@
     grid-row: 4;
   }
 
-  #pantalla-inicio .ventana__contenido > .mascota .mascota__img,
-  #pantalla-instrucciones .ventana__contenido > .mascota .mascota__img {
+  #pantalla-inicio .ventana__contenido > .mascota .mascota__img {
     width: 150px;
     height: 150px;
+  }
+
+  /* Oso maestro protagonista, como en el diseño. */
+  #pantalla-instrucciones .ventana__contenido > .mascota .mascota__img {
+    width: 190px;
+    height: 190px;
   }
 }
 
@@ -317,6 +327,12 @@
   .mascota__img {
     width: 80px;
     height: 80px;
+  }
+
+  /* El oso de Instrucciones se mantiene grande (la ventana rueda por dentro). */
+  #pantalla-instrucciones .ventana__contenido > .mascota .mascota__img {
+    width: 150px;
+    height: 150px;
   }
 
   /* Con scroll interno ya no se oculta la mascota: solo se reduce. */
