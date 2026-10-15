@@ -267,6 +267,8 @@
   #pantalla-instrucciones .ventana__contenido > .panel--comodines {
     grid-column: 2;
     grid-row: 3;
+    /* Un poco a la derecha, más cerca del oso. */
+    margin-left: 1rem;
   }
 
   #pantalla-instrucciones .ventana__contenido > .btn {
