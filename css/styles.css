@@ -698,17 +698,7 @@ input.is-error {
   border-radius: 4px;
 }
 
-/* El texto de JUGAR parpadea (el botón queda siempre visible).
-   Con prefers-reduced-motion se apaga (bloque global de fase 2). */
-#btn-jugar {
-  animation: parpadeo-texto 1.2s steps(2) infinite;
-}
-
-@keyframes parpadeo-texto {
-  50% {
-    color: transparent;
-  }
-}
+/* Sin efectos en JUGAR: botón fijo (se probó el parpadeo y se descartó). */
 
 /* ============================================================
    Fase 4: maquetación de Inicio, Instrucciones y Configuración.
