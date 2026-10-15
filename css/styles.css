@@ -826,15 +826,6 @@ input.is-error {
   padding-right: 0.25rem;
 }
 
-/* Fila de chips informativos del panel COMODINES (Instrucciones). */
-.grupo-comodines {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
 /* Texto compacto del panel PUNTUACIÓN (mínimo legible 14 px). */
 .panel--puntuacion {
   font-size: 0.875rem;

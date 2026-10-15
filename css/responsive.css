@@ -228,10 +228,10 @@
     align-items: center;
   }
 
-  /* Instrucciones: PUNTUACIÓN flexible + COMODINES y oso con ancho fijo.
-     El sobrante queda entre PUNTUACIÓN y COMODINES, nunca dentro del recuadro. */
+  /* Instrucciones (como la imagen): paneles apilados a ancho completo
+     y oso mediano al costado, centrado a media altura. */
   #pantalla-instrucciones .ventana__contenido {
-    grid-template-columns: minmax(0, 1fr) 260px 300px;
+    grid-template-columns: minmax(0, 1fr) 170px;
     align-items: center;
     gap: 0.75rem;
   }
@@ -256,25 +256,20 @@
   }
 
   #pantalla-instrucciones .ventana__contenido > .panel--comodines {
-    grid-column: 2;
-    grid-row: 3;
-    /* Angosto y pegado a la derecha de su columna, junto al oso. */
-    width: 185px;
-    justify-self: end;
-  }
-
-  #pantalla-instrucciones .ventana__contenido > .btn {
-    grid-column: 1 / span 2;
+    grid-column: 1;
     grid-row: 4;
   }
 
+  #pantalla-instrucciones .ventana__contenido > .btn {
+    grid-column: 1 / -1;
+    grid-row: 5;
+  }
+
   #pantalla-instrucciones .ventana__contenido > .mascota {
-    grid-column: 3;
-    grid-row: 3 / span 2;
-    /* Alineado arriba: la varita (esquina superior izquierda de la imagen)
-       queda a la altura del recuadro COMODINES, apuntándole. */
-    align-self: start;
-    margin-top: 0.5rem;
+    grid-column: 2;
+    grid-row: 3 / span 3;
+    align-self: center;
+    margin-top: 0;
     /* Centrado en su columna. */
     justify-content: center;
   }
@@ -284,10 +279,10 @@
     height: 150px;
   }
 
-  /* Oso maestro protagonista, como en el diseño (la fila crece con él). */
+  /* Oso mediano al costado, como en la imagen. */
   #pantalla-instrucciones .ventana__contenido > .mascota .mascota__img {
-    width: 300px;
-    height: 300px;
+    width: 150px;
+    height: 150px;
   }
 
   /* Paneles compactos de Instrucciones (sin aire extra). */
@@ -348,10 +343,10 @@
     height: 80px;
   }
 
-  /* El oso de Instrucciones se mantiene grande (la ventana rueda por dentro). */
+  /* El oso de Instrucciones se mantiene mediano (la ventana rueda por dentro). */
   #pantalla-instrucciones .ventana__contenido > .mascota .mascota__img {
-    width: 220px;
-    height: 220px;
+    width: 120px;
+    height: 120px;
   }
 
   /* Con scroll interno ya no se oculta la mascota: solo se reduce. */
