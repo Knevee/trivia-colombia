@@ -18,6 +18,7 @@
   --crema: #FFF3D6;         /* paneles de texto, opciones normales */
   --texto: #0A1440;         /* texto sobre crema */
   --blanco: #FFFFFF;        /* texto sobre azul */
+  --tinta: #FFFFFF;         /* texto sobre el fondo (cambia con el tema) */
 
   /* Derivados solo para el fondo (se ajustan solo aquí si cambia el Figma). */
   --punto: #1B3A8F;         /* puntos del patrón sobre el fondo oscuro */
@@ -34,8 +35,8 @@
   --punto: #B9CCF2;         /* puntos en azul claro */
   --montana-atras: #C4D6FA;
   --montana-frente: #A9C2F5;
-  --blanco: #0A1440;        /* el texto "sobre azul" pasa a tinta oscura */
-  /* Amarillo, rojo y verde se mantienen. Contraste texto/fondo ≥ 4.5:1. */
+  --tinta: #0A1440;         /* texto oscuro sobre el fondo claro */
+  /* Amarillo, rojo, verde y blanco se mantienen. Contraste texto/fondo ≥ 4.5:1. */
 
   color-scheme: light;
 }
@@ -66,7 +67,7 @@ body {
   font-weight: 600;
   font-size: 1rem;
   line-height: 1.5;
-  color: var(--blanco);
+  color: var(--tinta);
 
   /* Fondo azul oscuro + patrón de puntos (2 px cada 16 px: es un patrón, no un degradado). */
   background-color: var(--azul-fondo);
@@ -783,7 +784,7 @@ input.is-error {
   font-size: 1rem;
   text-align: center;
   color: var(--texto);
-  background: var(--blanco);
+  background: #FFFFFF; /* siempre claro en ambos temas */
   border: 4px solid var(--azul-borde);
   border-radius: 4px;
 }
@@ -811,7 +812,7 @@ input.is-error {
   margin: 0;
   font-family: "Press Start 2P", "Courier New", monospace;
   font-size: 0.65rem;
-  color: var(--blanco);
+  color: var(--tinta);
 }
 
 .grupo-dificultad {
@@ -848,7 +849,7 @@ h3 {
   font-family: "Press Start 2P", "Courier New", monospace;
   font-size: 0.65rem;
   line-height: 1.6;
-  color: var(--blanco);
+  color: var(--tinta);
   margin: 0 0 0.5rem;
 }
 
@@ -981,11 +982,12 @@ h3 {
   padding-right: 0.25rem;
 }
 
-/* Contenido interno de los dialogs. */
+/* Contenido interno de los dialogs (fondo siempre azul). */
 .modal-contenido {
   padding: 1.25rem 1rem;
   display: grid;
   gap: 1rem;
+  color: var(--blanco);
 }
 
 .modal-contenido p {
