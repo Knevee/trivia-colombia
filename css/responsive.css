@@ -277,6 +277,11 @@
     margin-top: 0.5rem;
     /* Centrado en su columna: separado del panel pero dentro del marco. */
     justify-content: center;
+    /* Montado sobre el borde derecho de COMODINES (como en el diseño):
+       va después en pintura para quedar por encima del panel. */
+    position: relative;
+    z-index: 2;
+    margin-left: -70px;
   }
 
   #pantalla-inicio .ventana__contenido > .mascota .mascota__img {
