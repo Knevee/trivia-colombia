@@ -281,8 +281,8 @@
        queda a la altura del recuadro COMODINES, apuntándole. */
     align-self: start;
     margin-top: 0.5rem;
-    /* Pegado al panel COMODINES: el espacio sobrante queda a la derecha. */
-    justify-content: flex-start;
+    /* Centrado en su columna: separado del panel pero dentro del marco. */
+    justify-content: center;
   }
 
   #pantalla-inicio .ventana__contenido > .mascota .mascota__img {
