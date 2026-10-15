@@ -698,15 +698,15 @@ input.is-error {
   border-radius: 4px;
 }
 
-/* Texto parpadeante PRESS START (animación con steps). */
-.parpadeo {
-  animation: parpadeo 1.2s steps(2) infinite;
-  text-align: center;
+/* El texto de JUGAR parpadea (el botón queda siempre visible).
+   Con prefers-reduced-motion se apaga (bloque global de fase 2). */
+#btn-jugar {
+  animation: parpadeo-texto 1.2s steps(2) infinite;
 }
 
-@keyframes parpadeo {
+@keyframes parpadeo-texto {
   50% {
-    opacity: 0;
+    color: transparent;
   }
 }
 
