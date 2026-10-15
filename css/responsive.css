@@ -231,7 +231,7 @@
   /* Instrucciones (como la imagen): paneles apilados a ancho completo
      y oso mediano al costado, centrado a media altura. */
   #pantalla-instrucciones .ventana__contenido {
-    grid-template-columns: minmax(0, 1fr) 210px;
+    grid-template-columns: minmax(0, 1fr) 270px;
     align-items: center;
     gap: 0.75rem;
   }
@@ -281,8 +281,8 @@
 
   /* Oso grande al costado (el layout no se mueve). */
   #pantalla-instrucciones .ventana__contenido > .mascota .mascota__img {
-    width: 200px;
-    height: 200px;
+    width: 260px;
+    height: 260px;
   }
 
   /* Paneles compactos de Instrucciones (sin aire extra). */
@@ -345,8 +345,8 @@
 
   /* El oso de Instrucciones se mantiene grande (la ventana rueda por dentro). */
   #pantalla-instrucciones .ventana__contenido > .mascota .mascota__img {
-    width: 150px;
-    height: 150px;
+    width: 190px;
+    height: 190px;
   }
 
   /* Con scroll interno ya no se oculta la mascota: solo se reduce. */
