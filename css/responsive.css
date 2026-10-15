@@ -258,6 +258,9 @@
   #pantalla-instrucciones .ventana__contenido > .panel--comodines {
     grid-column: 2;
     grid-row: 3;
+    /* Angosto y pegado a la derecha de su columna, junto al oso. */
+    width: 185px;
+    justify-self: end;
   }
 
   #pantalla-instrucciones .ventana__contenido > .btn {
